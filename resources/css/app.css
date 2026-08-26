@@ -4,6 +4,69 @@
 @source '../../storage/framework/views/*.php';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Base Enterprise Layout & Tabular Typography */
+html {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11", "tnum";
+}
+
+/* Tabular numbers for clean data alignment */
+.tabular-nums {
+    font-variant-numeric: tabular-nums;
+}
+
+/* Enterprise Border-Based Cards - Handcrafted Admin Look */
+.admin-card {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+}
+
+.admin-card-header {
+    padding: 14px 20px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+/* Authentic Compact Badges */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.025em;
+}
+
+.badge-sangat-baik { background-color: #dcfce7; color: #14532d; border: 1px solid #bbf7d0; }
+.badge-baik { background-color: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+.badge-cukup { background-color: #fef3c7; color: #78350f; border: 1px solid #fde68a; }
+.badge-perlu-perbaikan { background-color: #ffedd5; color: #7c2d12; border: 1px solid #fed7aa; }
+.badge-kritis { background-color: #fee2e2; color: #7f1d1d; border: 1px solid #fca5a5; }
+
+/* Score Text Classes */
+.score-sangat-baik { color: #15803d; }
+.score-baik { color: #16a34a; }
+.score-cukup { color: #d97706; }
+.score-perlu-perbaikan { color: #ea580c; }
+.score-kritis { color: #dc2626; }
+
+.bg-score-sangat-baik { background-color: #15803d; }
+.bg-score-baik { background-color: #16a34a; }
+.bg-score-cukup { background-color: #d97706; }
+.bg-score-perlu-perbaikan { background-color: #ea580c; }
+.bg-score-kritis { background-color: #dc2626; }
+
+/* Print styling */
+@media print {
+    aside, header, button, .no-print { display: none !important; }
+    body { background-color: #ffffff !important; color: #000000 !important; }
+    .lg\:ml-64 { margin-left: 0 !important; }
+    .admin-card { border: 1px solid #cbd5e1 !important; box-shadow: none !important; }
 }
