@@ -44,6 +44,130 @@ class SubItemSeeder extends Seeder
             ['ind_kode' => 'A5', 'kode' => 'c', 'teks' => 'Persyaratan dokumen untuk tiap jenis layanan (KTP-el, KK, akta, KIA) dicantumkan rinci', 'urutan' => 3],
             ['ind_kode' => 'A5', 'kode' => 'd', 'teks' => 'Jadwal layanan jemput bola tercantum dan sesuai dengan pelaksanaan aktual', 'urutan' => 4],
             ['ind_kode' => 'A5', 'kode' => 'e', 'teks' => 'Informasi diperbarui berkala dan tersedia juga dalam bentuk digital (website/medsos/WA) yang sinkron dengan papan fisik', 'urutan' => 5],
+
+            // Sub-var 2: Reliability (A6 - A10)
+            ['ind_kode' => 'A6', 'kode' => 'a', 'teks' => 'Standar Operasional Prosedur (SOP) layanan terpampang jelas di area pelayanan', 'urutan' => 1],
+            ['ind_kode' => 'A6', 'kode' => 'b', 'teks' => 'Petugas menjalankan tahapan pelayanan secara konsisten sesuai petunjuk SOP', 'urutan' => 2],
+            ['ind_kode' => 'A6', 'kode' => 'c', 'teks' => 'Persyaratan berkas yang diminta sesuai dengan yang tertera di dokumen SOP', 'urutan' => 3],
+            ['ind_kode' => 'A6', 'kode' => 'd', 'teks' => 'Waktu proses pelayanan yang dijalankan tidak menyimpang dari standar SOP', 'urutan' => 4],
+            ['ind_kode' => 'A6', 'kode' => 'e', 'teks' => 'Dokumen SOP diperbarui secara berkala dan terdokumentasi dengan baik', 'urutan' => 5],
+
+            ['ind_kode' => 'A7', 'kode' => 'a', 'teks' => 'Terdapat estimasi waktu penyelesaian yang jelas untuk setiap jenis layanan', 'urutan' => 1],
+            ['ind_kode' => 'A7', 'kode' => 'b', 'teks' => 'Berkas/layanan diselesaikan sesuai batas waktu target yang dijanjikan', 'urutan' => 2],
+            ['ind_kode' => 'A7', 'kode' => 'c', 'teks' => 'Petugas memberikan informasi awal jika ada potensi keterlambatan pemrosesan', 'urutan' => 3],
+            ['ind_kode' => 'A7', 'kode' => 'd', 'teks' => 'Alur penyelesaian layanan berjalan lancar tanpa penundaan yang tidak perlu', 'urutan' => 4],
+            ['ind_kode' => 'A7', 'kode' => 'e', 'teks' => 'Catatan/log waktu penyelesaian dokumen tersimpan dan terevaluasi rutin', 'urutan' => 5],
+
+            ['ind_kode' => 'A8', 'kode' => 'a', 'teks' => 'Dokumen/hasil layanan yang diterbitkan bebas dari kesalahan ketik data diri', 'urutan' => 1],
+            ['ind_kode' => 'A8', 'kode' => 'b', 'teks' => 'Petugas melakukan verifikasi silang data sebelum menerbitkan hasil layanan', 'urutan' => 2],
+            ['ind_kode' => 'A8', 'kode' => 'c', 'teks' => 'Informasi yang tercantum dalam surat/dokumen sesuai dengan permohonan warga', 'urutan' => 3],
+            ['ind_kode' => 'A8', 'kode' => 'd', 'teks' => 'Tingkat pengembalian berkas akibat kesalahan petugas sangat rendah', 'urutan' => 4],
+            ['ind_kode' => 'A8', 'kode' => 'e', 'teks' => 'Tersedia prosedur koreksi cepat jika ditemukan kekeliruan pada hasil layanan', 'urutan' => 5],
+
+            ['ind_kode' => 'A9', 'kode' => 'a', 'teks' => 'Alur langkah-langkah pengurusan layanan disampaikan dengan ringkas dan jelas', 'urutan' => 1],
+            ['ind_kode' => 'A9', 'kode' => 'b', 'teks' => 'Panduan permohonan dilengkapi alur bagan visual yang mudah dibaca warga', 'urutan' => 2],
+            ['ind_kode' => 'A9', 'kode' => 'c', 'teks' => 'Informasi persyaratan tidak membingungkan dan tidak berbelit-belit', 'urutan' => 3],
+            ['ind_kode' => 'A9', 'kode' => 'd', 'teks' => 'Petugas siap menjelaskan ulang prosedur jika ada warga yang belum paham', 'urutan' => 4],
+            ['ind_kode' => 'A9', 'kode' => 'e', 'teks' => 'Informasi prosedur dapat diakses dengan mudah baik secara langsung maupun media cetak/digital', 'urutan' => 5],
+
+            ['ind_kode' => 'A10', 'kode' => 'a', 'teks' => 'Kualitas pelayanan tetap sama baiknya pada hari kerja biasa maupun hari padat', 'urutan' => 1],
+            ['ind_kode' => 'A10', 'kode' => 'b', 'teks' => 'Kehadiran dan kesiapan petugas konsisten dari pagi hingga jam pelayanan berakhir', 'urutan' => 2],
+            ['ind_kode' => 'A10', 'kode' => 'c', 'teks' => 'Standar verifikasi berkas diberlakukan secara adil dan seragam untuk semua pemohon', 'urutan' => 3],
+            ['ind_kode' => 'A10', 'kode' => 'd', 'teks' => 'Tidak terdapat perbedaan perlakuan kualitas layanan antar ruang/loket', 'urutan' => 4],
+            ['ind_kode' => 'A10', 'kode' => 'e', 'teks' => 'Monitoring mutu pelayanan dilakukan secara rutin oleh penanggung jawab layanan', 'urutan' => 5],
+
+            // Sub-var 3: Responsiveness (A11 - A15)
+            ['ind_kode' => 'A11', 'kode' => 'a', 'teks' => 'Petugas langsung melayani warga begitu tiba di loket pelayanan', 'urutan' => 1],
+            ['ind_kode' => 'A11', 'kode' => 'b', 'teks' => 'Petugas sigap menjawab pertanyaan warga tanpa membuat menunggu lama', 'urutan' => 2],
+            ['ind_kode' => 'A11', 'kode' => 'c', 'teks' => 'Proses pencarian atau verifikasi berkas dilakukan secara cepat dan efisien', 'urutan' => 3],
+            ['ind_kode' => 'A11', 'kode' => 'd', 'teks' => 'Petugas dengan cepat mengarahkan warga ke loket atau petugas yang tepat', 'urutan' => 4],
+            ['ind_kode' => 'A11', 'kode' => 'e', 'teks' => 'Koordinasi antar petugas berjalan cepat saat menangani permohonan warga', 'urutan' => 5],
+
+            ['ind_kode' => 'A12', 'kode' => 'a', 'teks' => 'Sarana pengaduan (kotak saran/WA/aplikasi/loket) tersedia dan terlihat jelas', 'urutan' => 1],
+            ['ind_kode' => 'A12', 'kode' => 'b', 'teks' => 'Formulir atau media penyampaian pengaduan dapat diakses dengan mudah oleh warga', 'urutan' => 2],
+            ['ind_kode' => 'A12', 'kode' => 'c', 'teks' => 'Petugas penanggung jawab keluhan/pengaduan bertugas di lokasi', 'urutan' => 3],
+            ['ind_kode' => 'A12', 'kode' => 'd', 'teks' => 'Alur penyampaian keluhan diinformasikan secara terbuka kepada masyarakat', 'urutan' => 4],
+            ['ind_kode' => 'A12', 'kode' => 'e', 'teks' => 'Media pengaduan diperiksa dan dicatat secara berkala setiap hari', 'urutan' => 5],
+
+            ['ind_kode' => 'A13', 'kode' => 'a', 'teks' => 'Setiap laporan/pengaduan warga langsung dicatat dalam buku/sistem registrasi', 'urutan' => 1],
+            ['ind_kode' => 'A13', 'kode' => 'b', 'teks' => 'Warga mendapatkan konfirmasi/tanda terima atas pengaduan yang disampaikan', 'urutan' => 2],
+            ['ind_kode' => 'A13', 'kode' => 'c', 'teks' => 'Tindak lanjut pengaduan dilakukan dalam batas waktu penyelesaian yang ditetapkan', 'urutan' => 3],
+            ['ind_kode' => 'A13', 'kode' => 'd', 'teks' => 'Pelapor diberikan informasi perkembangan/status penyelesaian pengaduannya', 'urutan' => 4],
+            ['ind_kode' => 'A13', 'kode' => 'e', 'teks' => 'Dokumentasi rekapitulasi penanganan pengaduan tersimpan secara rapi', 'urutan' => 5],
+
+            ['ind_kode' => 'A14', 'kode' => 'a', 'teks' => 'Petugas aktif menyapa dan menanyakan kebutuhan warga yang tampak bingung', 'urutan' => 1],
+            ['ind_kode' => 'A14', 'kode' => 'b', 'teks' => 'Petugas membantu mengarahkan warga dalam mengisi formulir pelayanan', 'urutan' => 2],
+            ['ind_kode' => 'A14', 'kode' => 'c', 'teks' => 'Petugas memberikan petunjuk bagi warga yang baru pertama kali mengurus berkas', 'urutan' => 3],
+            ['ind_kode' => 'A14', 'kode' => 'd', 'teks' => 'Petugas menginfokan langkah selanjutnya sebelum diminta oleh pemohon', 'urutan' => 4],
+            ['ind_kode' => 'A14', 'kode' => 'e', 'teks' => 'Inisiatif petugas terasa membantu mempercepat proses pelayanan warga', 'urutan' => 5],
+
+            ['ind_kode' => 'A15', 'kode' => 'a', 'teks' => 'Sistem nomor antrean berfungsi dengan baik dan teratur', 'urutan' => 1],
+            ['ind_kode' => 'A15', 'kode' => 'b', 'teks' => 'Jumlah pemohon di ruang tunggu terkelola sehingga antrean tidak mengular', 'urutan' => 2],
+            ['ind_kode' => 'A15', 'kode' => 'c', 'teks' => 'Waktu tunggu sejak mengambil nomor hingga dipanggil ke loket tergolong singkat', 'urutan' => 3],
+            ['ind_kode' => 'A15', 'kode' => 'd', 'teks' => 'Pembukaan loket tambahan dilakukan saat terjadi lonjakan antrean warga', 'urutan' => 4],
+            ['ind_kode' => 'A15', 'kode' => 'e', 'teks' => 'Estimasi waktu tunggu antrean diinformasikan kepada pemohon', 'urutan' => 5],
+
+            // Sub-var 4: Assurance (A16 - A20)
+            ['ind_kode' => 'A16', 'kode' => 'a', 'teks' => 'Petugas menguasai aturan dan persyaratan teknis dari setiap jenis layanan', 'urutan' => 1],
+            ['ind_kode' => 'A16', 'kode' => 'b', 'teks' => 'Petugas mampu mengoperasikan sistem/aplikasi pelayanan dengan lancar', 'urutan' => 2],
+            ['ind_kode' => 'A16', 'kode' => 'c', 'teks' => 'Petugas dapat menjawab pertanyaan teknis warga dengan tepat dan benar', 'urutan' => 3],
+            ['ind_kode' => 'A16', 'kode' => 'd', 'teks' => 'Petugas terampil mengatasi kendala teknis sederhana pada saat pelayanan', 'urutan' => 4],
+            ['ind_kode' => 'A16', 'kode' => 'e', 'teks' => 'Petugas mengikuti pelatihan atau pembinaan kompetensi secara berkala', 'urutan' => 5],
+
+            ['ind_kode' => 'A17', 'kode' => 'a', 'teks' => 'Berkas dan dokumen fisik warga disimpan di tempat terisolasi dan aman', 'urutan' => 1],
+            ['ind_kode' => 'A17', 'kode' => 'b', 'teks' => 'Akses sistem data kependudukan/layanan dibatasi hanya untuk petugas berwenang', 'urutan' => 2],
+            ['ind_kode' => 'A17', 'kode' => 'c', 'teks' => 'Petugas tidak meletakkan dokumen pribadi warga di sembarang tempat', 'urutan' => 3],
+            ['ind_kode' => 'A17', 'kode' => 'd', 'teks' => 'Rahasia data pribadi warga dijamin dan tidak disebarluaskan ke pihak lain', 'urutan' => 4],
+            ['ind_kode' => 'A17', 'kode' => 'e', 'teks' => 'Pengembalian dokumen asli warga dilakukan dengan verifikasi identitas yang ketat', 'urutan' => 5],
+
+            ['ind_kode' => 'A18', 'kode' => 'a', 'teks' => 'Petugas menyapa warga dengan ramah dan bahasa yang santun', 'urutan' => 1],
+            ['ind_kode' => 'A18', 'kode' => 'b', 'teks' => 'Petugas tidak menunjukkan sikap cetus, galak, atau apatis saat melayani', 'urutan' => 2],
+            ['ind_kode' => 'A18', 'kode' => 'c', 'teks' => 'Petugas menjaga kontak mata dan mendengarkan dengan penuh perhatian', 'urutan' => 3],
+            ['ind_kode' => 'A18', 'kode' => 'd', 'teks' => 'Petugas menghargai setiap warga tanpa membeda-bedakan latar belakang', 'urutan' => 4],
+            ['ind_kode' => 'A18', 'kode' => 'e', 'teks' => 'Penampilan serta tutur kata petugas mencerminkan etika pelayanan publik yang baik', 'urutan' => 5],
+
+            ['ind_kode' => 'A19', 'kode' => 'a', 'teks' => 'Informasi biaya layanan (termasuk layanan gratis/Rp 0) terpasang dengan jelas', 'urutan' => 1],
+            ['ind_kode' => 'A19', 'kode' => 'b', 'teks' => 'Petugas tidak meminta atau menerima uang imbalan/tips dari warga', 'urutan' => 2],
+            ['ind_kode' => 'A19', 'kode' => 'c', 'teks' => 'Seluruh pembayaran (jika ada) dilakukan sesuai tarif resmi dengan resi sah', 'urutan' => 3],
+            ['ind_kode' => 'A19', 'kode' => 'd', 'teks' => 'Papan peringatan "Bebas Pungli" terpasang di area pelayanan', 'urutan' => 4],
+            ['ind_kode' => 'A19', 'kode' => 'e', 'teks' => 'Tersedia saluran pelaporan khusus untuk indikasi pungutan liar', 'urutan' => 5],
+
+            ['ind_kode' => 'A20', 'kode' => 'a', 'teks' => 'Warga merasa tenang dan yakin saat menyerahkan berkas kepada petugas', 'urutan' => 1],
+            ['ind_kode' => 'A20', 'kode' => 'b', 'teks' => 'Janji pelayanan yang disampaikan petugas dapat dipercaya oleh warga', 'urutan' => 2],
+            ['ind_kode' => 'A20', 'kode' => 'c', 'teks' => 'Reputasi kantor dalam memberikan pelayanan dinilai positif oleh masyarakat', 'urutan' => 3],
+            ['ind_kode' => 'A20', 'kode' => 'd', 'teks' => 'Warga tidak merasa ragu untuk mengurus sendiri pelayanan tanpa perantara', 'urutan' => 4],
+            ['ind_kode' => 'A20', 'kode' => 'e', 'teks' => 'Hasil evaluasi kepuasan masyarakat menunjukkan tingkat kepercayaan tinggi', 'urutan' => 5],
+
+            // Sub-var 5: Empathy (A21 - A25)
+            ['ind_kode' => 'A21', 'kode' => 'a', 'teks' => 'Petugas mendengarkan penjelasan warga hingga selesai tanpa memotong pembicaraan', 'urutan' => 1],
+            ['ind_kode' => 'A21', 'kode' => 'b', 'teks' => 'Petugas menunjukkan empati dan sikap tenang saat menghadapi warga yang emosi', 'urutan' => 2],
+            ['ind_kode' => 'A21', 'kode' => 'c', 'teks' => 'Petugas tidak bersikap defensif ketika menerima masukan atau keluhan', 'urutan' => 3],
+            ['ind_kode' => 'A21', 'kode' => 'd', 'teks' => 'Petugas memberikan penjelasan balasan secara kepala dingin dan meyakinkan', 'urutan' => 4],
+            ['ind_kode' => 'A21', 'kode' => 'e', 'teks' => 'Warga merasa dihargai dan didengarkan permasalahannya oleh petugas', 'urutan' => 5],
+
+            ['ind_kode' => 'A22', 'kode' => 'a', 'teks' => 'Tersedia jalur antrean khusus atau prioritas bagi lansia, ibu hamil, dan disabilitas', 'urutan' => 1],
+            ['ind_kode' => 'A22', 'kode' => 'b', 'teks' => 'Tersedia fasilitas fisik pendukung (ram/bidang miring, kursi roda, atau pegangan)', 'urutan' => 2],
+            ['ind_kode' => 'A22', 'kode' => 'c', 'teks' => 'Loket pelayanan dibuat aksesibel dan mudah dijangkau oleh pengguna kursi roda', 'urutan' => 3],
+            ['ind_kode' => 'A22', 'kode' => 'd', 'teks' => 'Petugas sigap memberikan pendampingan khusus bagi warga berkebutuhan khusus', 'urutan' => 4],
+            ['ind_kode' => 'A22', 'kode' => 'e', 'teks' => 'Toilet khusus penyandang disabilitas/prioritas tersedia dan berfungsi baik', 'urutan' => 5],
+
+            ['ind_kode' => 'A23', 'kode' => 'a', 'teks' => 'Informasi jam kerja pelayanan terpasang jelas di depan kantor dan media sosial', 'urutan' => 1],
+            ['ind_kode' => 'A23', 'kode' => 'b', 'teks' => 'Loket dibuka tepat waktu sesuai jam operasional yang telah ditentukan', 'urutan' => 2],
+            ['ind_kode' => 'A23', 'kode' => 'c', 'teks' => 'Petugas tetap melayani warga yang sudah mengantre menjelang jam istirahat/tutup', 'urutan' => 3],
+            ['ind_kode' => 'A23', 'kode' => 'd', 'teks' => 'Penyesuaian jam layanan pada hari tertentu diinformasikan jauh-jauh hari', 'urutan' => 4],
+            ['ind_kode' => 'A23', 'kode' => 'e', 'teks' => 'Akses layanan mandiri/online (jika ada) dapat diakses 24 jam', 'urutan' => 5],
+
+            ['ind_kode' => 'A24', 'kode' => 'a', 'teks' => 'Petugas menjelaskan istilah teknis/hukum menggunakan bahasa sehari-hari yang sederhana', 'urutan' => 1],
+            ['ind_kode' => 'A24', 'kode' => 'b', 'teks' => 'Penjelasan dari petugas tidak menimbulkan penafsiran ganda bagi warga', 'urutan' => 2],
+            ['ind_kode' => 'A24', 'kode' => 'c', 'teks' => 'Petugas memastikan warga telah paham dengan mengonfirmasi kembali di akhir penjelasan', 'urutan' => 3],
+            ['ind_kode' => 'A24', 'kode' => 'd', 'teks' => 'Brosur atau panduan informasi menggunakan pilihan kata yang komunikatif', 'urutan' => 4],
+            ['ind_kode' => 'A24', 'kode' => 'e', 'teks' => 'Petugas bersedia menyesuaikan gaya komunikasi untuk warga usia lanjut', 'urutan' => 5],
+
+            ['ind_kode' => 'A25', 'kode' => 'a', 'teks' => 'Petugas memastikan seluruh kebutuhan permohonan warga telah terpenuhi sebelum selesai', 'urutan' => 1],
+            ['ind_kode' => 'A25', 'kode' => 'b', 'teks' => 'Petugas menanyakan kepuasan warga atas pelayanan yang baru diberikan', 'urutan' => 2],
+            ['ind_kode' => 'A25', 'kode' => 'c', 'teks' => 'Petugas memberikan arahan solusi terbaik jika berkas warga belum lengkap', 'urutan' => 3],
+            ['ind_kode' => 'A25', 'kode' => 'd', 'teks' => 'Petugas menindaklanjuti permohonan yang tertunda hingga benar-benar tuntas', 'urutan' => 4],
+            ['ind_kode' => 'A25', 'kode' => 'e', 'teks' => 'Sikap kepedulian petugas berorientasi pada kemudahan dan kenyamanan warga', 'urutan' => 5],
             ['ind_kode' => 'B1', 'kode' => 'a', 'teks' => 'Jadwal pengangkutan sampah dari TPS ke TPA telah ditetapkan secara tertulis', 'urutan' => 1],
             ['ind_kode' => 'B1', 'kode' => 'b', 'teks' => 'Armada datang ke TPS sesuai hari yang dijadwalkan dalam 1 minggu terakhir', 'urutan' => 2],
             ['ind_kode' => 'B1', 'kode' => 'c', 'teks' => 'Armada datang sesuai rentang waktu (jam) yang dijadwalkan, bukan hanya harinya', 'urutan' => 3],
@@ -536,16 +660,37 @@ class SubItemSeeder extends Seeder
             ['ind_kode' => 'W5', 'kode' => 'e', 'teks' => 'Warga menyatakan puas secara keseluruhan dengan tingkat ketertiban umum di kecamatan ini', 'urutan' => 5],
         ];
 
+        $processedIndikatorIds = [];
         foreach ($data as $row) {
             if (isset($indikators[$row['ind_kode']])) {
+                $indId = $indikators[$row['ind_kode']];
+                $processedIndikatorIds[$indId] = true;
                 $subItems[] = [
-                    'indikator_id' => $indikators[$row['ind_kode']],
+                    'indikator_id' => $indId,
                     'kode' => $row['kode'],
                     'teks' => $row['teks'],
                     'urutan' => $row['urutan'],
                     'created_at' => $now,
                     'updated_at' => $now,
                 ];
+            }
+        }
+
+        // Fallback for any indikators without explicit custom sub-items in seed data
+        $allInds = Indikator::all();
+        $subCodes = ['a', 'b', 'c', 'd', 'e'];
+        foreach ($allInds as $ind) {
+            if (! isset($processedIndikatorIds[$ind->id])) {
+                foreach ($subCodes as $idx => $code) {
+                    $subItems[] = [
+                        'indikator_id' => $ind->id,
+                        'kode' => $code,
+                        'teks' => "Sub-item {$code} dari {$ind->kode}: {$ind->pernyataan}",
+                        'urutan' => $idx + 1,
+                        'created_at' => $now,
+                        'updated_at' => $now,
+                    ];
+                }
             }
         }
 

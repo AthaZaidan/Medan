@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Kecamatan;
 use App\Models\SubVariabel;
 use App\Services\QpiCalculationService;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class DashboardController extends Controller
@@ -14,20 +15,37 @@ class DashboardController extends Controller
     ) {}
 
     /**
-     * Main dashboard: KPI cards, ranking table, top-N weakest.
+     * Main dashboard: KPI cards, ranking table, charts, top-N weakest.
      */
-    public function index(): View
+    public function index(Request $request): View
     {
-        $statistik = $this->qpiService->statistikKota();
-        $peringkat = $this->qpiService->peringkat();
-        $topIndikator = $this->qpiService->topNIndikatorTermurah(10);
-        $topSubVariabel = $this->qpiService->topNSubVariabelTermurah(5);
+        $bulan = $request->integer('bulan') ?: null;
+        $tahun = $request->integer('tahun') ?: null;
+
+        $statistik = $this->qpiService->statistikKota($bulan, $tahun);
+        $peringkat = $this->qpiService->peringkat($bulan, $tahun);
+        $topIndikator = $this->qpiService->topNIndikatorTermurah(10, $bulan, $tahun);
+        $topSubVariabel = $this->qpiService->topNSubVariabelTermurah(5, $bulan, $tahun);
+        $periodeList = $this->qpiService->getPeriodeList();
+        $distribusiKategori = $this->qpiService->distribusiKategori($bulan, $tahun);
+
+        // Data for bar chart: QPI per kecamatan
+        $chartBarData = $peringkat->map(fn ($row) => [
+            'nama' => $row['kecamatan']->nama,
+            'qpi' => $row['qpi_inti'],
+            'kategori' => $row['kategori'],
+        ])->values();
 
         return view('dashboard.index', compact(
             'statistik',
             'peringkat',
             'topIndikator',
             'topSubVariabel',
+            'periodeList',
+            'distribusiKategori',
+            'chartBarData',
+            'bulan',
+            'tahun',
         ));
     }
 

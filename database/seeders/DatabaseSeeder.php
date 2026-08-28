@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             SubItemSeeder::class,
             DimensiIndikatorBobotSeeder::class,
             ParameterSeeder::class,
+            UserSeeder::class,
         ]);
     }
 }

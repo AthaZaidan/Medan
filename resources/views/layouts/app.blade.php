@@ -19,9 +19,7 @@
 
         {{-- App Header --}}
         <div class="h-14 px-5 border-b border-slate-200 flex items-center gap-3 bg-white">
-            <div class="w-7 h-7 rounded bg-blue-900 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
-                M
-            </div>
+            <img src="{{ asset('images/logo-pemko-medan.jpg') }}" alt="Logo Pemko Medan" class="w-8 h-8 object-contain flex-shrink-0">
             <div class="min-w-0">
                 <div class="font-bold text-slate-900 text-xs tracking-tight truncate">PEMKO MEDAN</div>
                 <div class="text-[11px] text-slate-500 font-medium leading-none">QPI Kewilyahan 2026</div>
@@ -53,6 +51,16 @@
             <div class="px-2 py-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-wider pt-3">
                 Pengaturan
             </div>
+
+            @if(auth()->check() && auth()->user()->isAdmin())
+                <a href="{{ route('admin.users.index') }}"
+                   class="flex items-center gap-2.5 px-3 py-2 rounded text-xs font-semibold transition-colors {{ request()->routeIs('admin.users.*') ? 'bg-slate-100 text-blue-900 font-bold' : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900' }}">
+                    <svg class="w-4 h-4 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
+                    </svg>
+                    Admin Control
+                </a>
+            @endif
 
             <a href="{{ route('parameter.index') }}"
                class="flex items-center gap-2.5 px-3 py-2 rounded text-xs font-semibold transition-colors {{ request()->routeIs('parameter.*') ? 'bg-slate-100 text-blue-900 font-bold' : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900' }}">
@@ -98,7 +106,27 @@
                     </svg>
                     Cetak
                 </button>
-                <span class="text-xs font-semibold text-slate-500 bg-slate-100 px-2.5 py-1 rounded">2026</span>
+
+                @auth
+                    <div class="flex items-center gap-2 pl-2 border-l border-slate-200">
+                        <div class="text-right hidden sm:block">
+                            <div class="text-xs font-bold text-slate-900 leading-none">{{ auth()->user()->name }}</div>
+                            <div class="text-[10px] text-slate-500 mt-0.5">
+                                @if(auth()->user()->isAdmin())
+                                    <span class="text-purple-700 font-bold">Admin</span>
+                                @elseif(auth()->user()->kecamatan)
+                                    <span class="text-blue-800 font-semibold">📍 {{ auth()->user()->kecamatan->nama }}</span>
+                                @endif
+                            </div>
+                        </div>
+                        <form action="{{ route('logout') }}" method="POST" class="inline">
+                            @csrf
+                            <button type="submit" title="Keluar dari sistem" class="px-2 py-1 bg-slate-100 hover:bg-red-50 hover:text-red-600 rounded text-xs font-semibold text-slate-700 transition-colors border border-slate-300">
+                                Logout
+                            </button>
+                        </form>
+                    </div>
+                @endauth
             </div>
         </header>
 
@@ -106,6 +134,12 @@
         @if(session('success'))
             <div class="mx-6 mt-4 p-3 rounded bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold">
                 {{ session('success') }}
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="mx-6 mt-4 p-3 rounded bg-red-50 border border-red-200 text-red-800 text-xs font-semibold">
+                {{ session('error') }}
             </div>
         @endif
 

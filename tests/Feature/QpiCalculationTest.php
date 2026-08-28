@@ -5,6 +5,7 @@ use App\Models\Jawaban;
 use App\Models\Kecamatan;
 use App\Models\Kuesioner;
 use App\Models\SubItem;
+use App\Models\User;
 use App\Services\QpiCalculationService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -13,6 +14,8 @@ uses(RefreshDatabase::class);
 beforeEach(function () {
     $this->seed();
     $this->service = app(QpiCalculationService::class);
+    $admin = User::where('role', 'admin')->first();
+    $this->actingAs($admin);
 });
 
 test('skor indikator calculates correctly according to Guttman formula', function () {
@@ -90,7 +93,7 @@ test('dashboard routes respond successfully', function () {
     $this->get(route('dashboard'))->assertOk();
     $this->get(route('kecamatan.detail', $kecamatan))->assertOk();
     $this->get(route('input.progress'))->assertOk();
-    $this->get(route('input.show', [$kuesioner, $kecamatan]))->assertOk();
+    $this->get(route('input.show', [$kuesioner, $kecamatan, 'bulan' => 8, 'tahun' => 2026]))->assertOk();
     $this->get(route('parameter.index'))->assertOk();
     $this->get(route('panduan.index'))->assertOk();
 });
@@ -103,6 +106,8 @@ test('checklist submission saves answers to database', function () {
     $response = $this->post(route('input.store'), [
         'kecamatan_id' => $kecamatan->id,
         'kuesioner_id' => $kuesioner->id,
+        'periode_bulan' => 8,
+        'periode_tahun' => 2026,
         'jawaban' => [
             $subItem->id => '1',
         ],
@@ -112,6 +117,8 @@ test('checklist submission saves answers to database', function () {
     $this->assertDatabaseHas('jawabans', [
         'sub_item_id' => $subItem->id,
         'kecamatan_id' => $kecamatan->id,
+        'periode_bulan' => 8,
+        'periode_tahun' => 2026,
         'nilai' => true,
     ]);
 });

@@ -7,7 +7,7 @@
 <div class="space-y-6">
 
     {{-- Back --}}
-    <a href="{{ route('input.progress') }}" class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-blue-900 transition-colors">
+    <a href="{{ route('input.progress', ['bulan' => $bulan, 'tahun' => $tahun]) }}" class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-blue-900 transition-colors">
         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/></svg>
         Kembali ke Progress
     </a>
@@ -26,6 +26,8 @@
     <form action="{{ route('input.store') }}" method="POST" class="space-y-6">
         @csrf
         <input type="hidden" name="kecamatan_id" value="{{ $kecamatan->id }}">
+        <input type="hidden" name="periode_bulan" value="{{ $bulan }}">
+        <input type="hidden" name="periode_tahun" value="{{ $tahun }}">
         <input type="hidden" name="kuesioner_id" value="{{ $kuesioner->id }}">
 
         @foreach($subVariabels as $sv)

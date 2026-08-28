@@ -19,11 +19,13 @@ class QpiCalculationService
      * Replicates Excel formula: IF(COUNTA(5 cells)=0, null, COUNTIF(cells,"Ya")/5*100)
      * When ≥1 sub-item is filled, empty sub-items are implicitly treated as "Tidak".
      */
-    public function skorIndikator(int $indikatorId, int $kecamatanId): ?float
+    public function skorIndikator(int $indikatorId, int $kecamatanId, ?int $bulan = null, ?int $tahun = null): ?float
     {
-        $jawabans = Jawaban::whereHas('subItem', fn ($q) => $q->where('indikator_id', $indikatorId))
-            ->where('kecamatan_id', $kecamatanId)
-            ->get();
+        $query = Jawaban::whereHas('subItem', fn ($q) => $q->where('indikator_id', $indikatorId))
+            ->where('kecamatan_id', $kecamatanId);
+
+        $query = $this->applyPeriodeFilter($query, $bulan, $tahun);
+        $jawabans = $query->get();
 
         if ($jawabans->isEmpty()) {
             return null;
@@ -42,14 +44,16 @@ class QpiCalculationService
      *
      * @return array<int, float|null> keyed by indikator_id
      */
-    public function allSkorIndikator(int $kecamatanId): array
+    public function allSkorIndikator(int $kecamatanId, ?int $bulan = null, ?int $tahun = null): array
     {
         // Get all jawabans for this kecamatan, grouped by indikator
-        $jawabans = Jawaban::where('kecamatan_id', $kecamatanId)
+        $query = Jawaban::where('kecamatan_id', $kecamatanId)
             ->join('sub_items', 'jawabans.sub_item_id', '=', 'sub_items.id')
-            ->select('sub_items.indikator_id', 'jawabans.nilai')
-            ->get()
-            ->groupBy('indikator_id');
+            ->select('sub_items.indikator_id', 'jawabans.nilai');
+
+        $query = $this->applyPeriodeFilter($query, $bulan, $tahun);
+
+        $jawabans = $query->get()->groupBy('indikator_id');
 
         $allIndikatorIds = Indikator::pluck('id')->toArray();
         $result = [];
@@ -72,7 +76,7 @@ class QpiCalculationService
      * Weighted average of indicator scores within the sub-variable.
      * Only indicators with numeric scores are included (dynamic denominator).
      */
-    public function skorSubVariabel(int $subVariabelId, int $kecamatanId, ?array $skorIndikatorCache = null): ?float
+    public function skorSubVariabel(int $subVariabelId, int $kecamatanId, ?array $skorIndikatorCache = null, ?int $bulan = null, ?int $tahun = null): ?float
     {
         $indikators = Indikator::where('sub_variabel_id', $subVariabelId)->get();
 
@@ -82,7 +86,7 @@ class QpiCalculationService
         foreach ($indikators as $ind) {
             $skor = $skorIndikatorCache !== null
                 ? ($skorIndikatorCache[$ind->id] ?? null)
-                : $this->skorIndikator($ind->id, $kecamatanId);
+                : $this->skorIndikator($ind->id, $kecamatanId, $bulan, $tahun);
 
             if ($skor !== null) {
                 $sumWeighted += $skor * (float) $ind->bobot_asli;
@@ -103,7 +107,7 @@ class QpiCalculationService
      * Uses dimensi_indikator_bobot pivot (2-tier aggregation: indicator → dimension).
      * Dynamic weighted average: only indicators with numeric scores are included.
      */
-    public function skorDimensi(string $dimensiKode, int $kecamatanId, ?array $skorIndikatorCache = null): ?float
+    public function skorDimensi(string $dimensiKode, int $kecamatanId, ?array $skorIndikatorCache = null, ?int $bulan = null, ?int $tahun = null): ?float
     {
         $dimensi = Dimensi::where('kode', $dimensiKode)->first();
 
@@ -121,7 +125,7 @@ class QpiCalculationService
         foreach ($pivotRows as $row) {
             $skor = $skorIndikatorCache !== null
                 ? ($skorIndikatorCache[$row->indikator_id] ?? null)
-                : $this->skorIndikator($row->indikator_id, $kecamatanId);
+                : $this->skorIndikator($row->indikator_id, $kecamatanId, $bulan, $tahun);
 
             if ($skor !== null) {
                 $sumWeighted += $skor * (float) $row->bobot;
@@ -141,9 +145,9 @@ class QpiCalculationService
      *
      * @return array<string, float|null> keyed by dimension kode (D1..D7)
      */
-    public function allSkorDimensi(int $kecamatanId): array
+    public function allSkorDimensi(int $kecamatanId, ?int $bulan = null, ?int $tahun = null): array
     {
-        $skorIndikatorCache = $this->allSkorIndikator($kecamatanId);
+        $skorIndikatorCache = $this->allSkorIndikator($kecamatanId, $bulan, $tahun);
         $result = [];
 
         foreach (['D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7'] as $kode) {
@@ -159,10 +163,10 @@ class QpiCalculationService
      * Weighted average of D1–D5 only (D6, D7 excluded).
      * Uses editable dimension weights from Parameter table.
      */
-    public function qpiInti(int $kecamatanId, ?array $skorDimensiCache = null): ?float
+    public function qpiInti(int $kecamatanId, ?array $skorDimensiCache = null, ?int $bulan = null, ?int $tahun = null): ?float
     {
         $bobot = Parameter::getGroup('bobot_dimensi');
-        $dimensiScores = $skorDimensiCache ?? $this->allSkorDimensi($kecamatanId);
+        $dimensiScores = $skorDimensiCache ?? $this->allSkorDimensi($kecamatanId, $bulan, $tahun);
 
         $mapping = [
             'D1' => 'bobot_d1',
@@ -199,9 +203,9 @@ class QpiCalculationService
      *
      * @return string|null null=not determinable, 'FLOOR_AKTIF', 'TIDAK_AKTIF'
      */
-    public function floorStatus(int $kecamatanId, ?array $skorDimensiCache = null): ?string
+    public function floorStatus(int $kecamatanId, ?array $skorDimensiCache = null, ?int $bulan = null, ?int $tahun = null): ?string
     {
-        $dimensiScores = $skorDimensiCache ?? $this->allSkorDimensi($kecamatanId);
+        $dimensiScores = $skorDimensiCache ?? $this->allSkorDimensi($kecamatanId, $bulan, $tahun);
         $ambangFloor = Parameter::getValue('ambang_floor', 50);
 
         // Check all 5 core dimensions are filled
@@ -224,10 +228,10 @@ class QpiCalculationService
      *
      * @return array{kategori: string, floor_aktif: bool}|null null if not determinable
      */
-    public function kategori(int $kecamatanId, ?array $skorDimensiCache = null): ?array
+    public function kategori(int $kecamatanId, ?array $skorDimensiCache = null, ?int $bulan = null, ?int $tahun = null): ?array
     {
-        $skorDimensi = $skorDimensiCache ?? $this->allSkorDimensi($kecamatanId);
-        $qpi = $this->qpiInti($kecamatanId, $skorDimensi);
+        $skorDimensi = $skorDimensiCache ?? $this->allSkorDimensi($kecamatanId, $bulan, $tahun);
+        $qpi = $this->qpiInti($kecamatanId, $skorDimensi, $bulan, $tahun);
 
         if ($qpi === null) {
             return null;
@@ -287,15 +291,15 @@ class QpiCalculationService
      *
      * @return Collection<int, array{kecamatan: Kecamatan, qpi_inti: float|null, rank: int, kategori: string|null, floor_aktif: bool|null, dimensi: array<string, float|null>}>
      */
-    public function peringkat(): Collection
+    public function peringkat(?int $bulan = null, ?int $tahun = null): Collection
     {
         $kecamatans = Kecamatan::orderBy('urutan')->get();
         $results = [];
 
         foreach ($kecamatans as $kec) {
-            $skorDimensi = $this->allSkorDimensi($kec->id);
-            $qpi = $this->qpiInti($kec->id, $skorDimensi);
-            $kat = $this->kategori($kec->id, $skorDimensi);
+            $skorDimensi = $this->allSkorDimensi($kec->id, $bulan, $tahun);
+            $qpi = $this->qpiInti($kec->id, $skorDimensi, $bulan, $tahun);
+            $kat = $this->kategori($kec->id, $skorDimensi, $bulan, $tahun);
 
             $results[] = [
                 'kecamatan' => $kec,
@@ -337,7 +341,7 @@ class QpiCalculationService
      *
      * @return Collection<int, array{indikator: Indikator, rata_rata_kota: float|null, skor_per_kecamatan: array<int, float|null>}>
      */
-    public function topNIndikatorTermurah(int $n = 10): Collection
+    public function topNIndikatorTermurah(int $n = 10, ?int $bulan = null, ?int $tahun = null): Collection
     {
         $kecamatans = Kecamatan::orderBy('urutan')->get();
         $indikators = Indikator::with('subVariabel.kuesioner')->orderBy('id')->get();
@@ -345,7 +349,7 @@ class QpiCalculationService
         // Batch load all jawabans
         $allScores = [];
         foreach ($kecamatans as $kec) {
-            $allScores[$kec->id] = $this->allSkorIndikator($kec->id);
+            $allScores[$kec->id] = $this->allSkorIndikator($kec->id, $bulan, $tahun);
         }
 
         $results = [];
@@ -388,7 +392,7 @@ class QpiCalculationService
      *
      * @return Collection<int, array{sub_variabel: SubVariabel, rata_rata_kota: float|null, skor_per_kecamatan: array<int, float|null>}>
      */
-    public function topNSubVariabelTermurah(int $n = 5): Collection
+    public function topNSubVariabelTermurah(int $n = 5, ?int $bulan = null, ?int $tahun = null): Collection
     {
         $kecamatans = Kecamatan::orderBy('urutan')->get();
         $subVariabels = SubVariabel::with('kuesioner')->orderBy('id')->get();
@@ -396,7 +400,7 @@ class QpiCalculationService
         // Pre-compute all indicator scores per kecamatan
         $allScores = [];
         foreach ($kecamatans as $kec) {
-            $allScores[$kec->id] = $this->allSkorIndikator($kec->id);
+            $allScores[$kec->id] = $this->allSkorIndikator($kec->id, $bulan, $tahun);
         }
 
         $results = [];
@@ -438,9 +442,9 @@ class QpiCalculationService
      *
      * @return array{rata_rata_qpi: float|null, jumlah_kritis: int, jumlah_floor: int, jumlah_sangat_baik: int, kecamatan_terendah: string|null, qpi_terendah: float|null}
      */
-    public function statistikKota(): array
+    public function statistikKota(?int $bulan = null, ?int $tahun = null): array
     {
-        $peringkat = $this->peringkat();
+        $peringkat = $this->peringkat($bulan, $tahun);
 
         $qpiValues = $peringkat->pluck('qpi_inti')->filter(fn ($v) => $v !== null);
         $rataRata = $qpiValues->isNotEmpty() ? round($qpiValues->avg(), 1) : null;
@@ -472,7 +476,7 @@ class QpiCalculationService
      *
      * @return Collection<int, array{kecamatan: Kecamatan, progress: array<string, array{filled: int, total: int, percent: float}>}>
      */
-    public function inputProgress(): Collection
+    public function inputProgress(?int $bulan = null, ?int $tahun = null): Collection
     {
         $kecamatans = Kecamatan::orderBy('urutan')->get();
 
@@ -486,17 +490,24 @@ class QpiCalculationService
             ->pluck('total', 'kode')
             ->toArray();
 
-        // Get filled jawaban counts per kuesioner per kecamatan
-        $filledCounts = DB::table('jawabans')
+        // Get filled jawaban counts per kuesioner per kecamatan (filtered by periode if given)
+        $filledQuery = DB::table('jawabans')
             ->join('sub_items', 'jawabans.sub_item_id', '=', 'sub_items.id')
             ->join('indikators', 'sub_items.indikator_id', '=', 'indikators.id')
             ->join('sub_variabels', 'indikators.sub_variabel_id', '=', 'sub_variabels.id')
             ->join('kuesioners', 'sub_variabels.kuesioner_id', '=', 'kuesioners.id')
             ->whereNotNull('jawabans.nilai')
             ->select('kuesioners.kode', 'jawabans.kecamatan_id', DB::raw('count(*) as filled'))
-            ->groupBy('kuesioners.kode', 'jawabans.kecamatan_id')
-            ->get()
-            ->groupBy('kecamatan_id');
+            ->groupBy('kuesioners.kode', 'jawabans.kecamatan_id');
+
+        if ($bulan !== null) {
+            $filledQuery->where('jawabans.periode_bulan', $bulan);
+        }
+        if ($tahun !== null) {
+            $filledQuery->where('jawabans.periode_tahun', $tahun);
+        }
+
+        $filledCounts = $filledQuery->get()->groupBy('kecamatan_id');
 
         $results = [];
         foreach ($kecamatans as $kec) {
@@ -520,5 +531,83 @@ class QpiCalculationService
         }
 
         return collect($results);
+    }
+
+    /**
+     * Get list of unique periods that have data.
+     *
+     * @return Collection<int, array{bulan: int, tahun: int, jumlah_kecamatan: int, label: string}>
+     */
+    public function getPeriodeList(): Collection
+    {
+        $periodes = DB::table('jawabans')
+            ->select('periode_bulan', 'periode_tahun', DB::raw('count(distinct kecamatan_id) as jumlah_kecamatan'))
+            ->whereNotNull('periode_bulan')
+            ->whereNotNull('periode_tahun')
+            ->groupBy('periode_bulan', 'periode_tahun')
+            ->orderBy('periode_tahun', 'desc')
+            ->orderBy('periode_bulan', 'desc')
+            ->get();
+
+        $namaBulan = [
+            1 => 'Januari', 2 => 'Februari', 3 => 'Maret', 4 => 'April',
+            5 => 'Mei', 6 => 'Juni', 7 => 'Juli', 8 => 'Agustus',
+            9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember',
+        ];
+
+        return $periodes->map(fn ($p) => [
+            'bulan' => (int) $p->periode_bulan,
+            'tahun' => (int) $p->periode_tahun,
+            'jumlah_kecamatan' => (int) $p->jumlah_kecamatan,
+            'label' => ($namaBulan[(int) $p->periode_bulan] ?? '-').' '.$p->periode_tahun,
+        ]);
+    }
+
+    /**
+     * Get distribution of kategori for pie chart.
+     *
+     * @return array<string, int>
+     */
+    public function distribusiKategori(?int $bulan = null, ?int $tahun = null): array
+    {
+        $peringkat = $this->peringkat($bulan, $tahun);
+
+        $distribusi = [
+            'Sangat Baik' => 0,
+            'Baik' => 0,
+            'Cukup' => 0,
+            'Perlu Perbaikan' => 0,
+            'Kritis' => 0,
+            'Belum Ada Data' => 0,
+        ];
+
+        foreach ($peringkat as $row) {
+            if ($row['kategori'] === null) {
+                $distribusi['Belum Ada Data']++;
+            } elseif (str_contains($row['kategori'], 'Kritis')) {
+                $distribusi['Kritis']++;
+            } elseif (str_contains($row['kategori'], 'Perlu Perbaikan')) {
+                $distribusi['Perlu Perbaikan']++;
+            } else {
+                $distribusi[$row['kategori']] = ($distribusi[$row['kategori']] ?? 0) + 1;
+            }
+        }
+
+        return $distribusi;
+    }
+
+    /**
+     * Apply periode filter to a query builder.
+     */
+    private function applyPeriodeFilter($query, ?int $bulan, ?int $tahun): mixed
+    {
+        if ($bulan !== null) {
+            $query = $query->where('jawabans.periode_bulan', $bulan);
+        }
+        if ($tahun !== null) {
+            $query = $query->where('jawabans.periode_tahun', $tahun);
+        }
+
+        return $query;
     }
 }

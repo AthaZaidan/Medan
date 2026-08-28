@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Jawaban extends Model
 {
-    protected $fillable = ['sub_item_id', 'kecamatan_id', 'nilai', 'updated_by'];
+    protected $fillable = ['sub_item_id', 'kecamatan_id', 'periode_bulan', 'periode_tahun', 'nilai', 'updated_by'];
 
     /**
      * @return array<string, string>
