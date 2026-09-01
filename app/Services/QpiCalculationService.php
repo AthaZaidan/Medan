@@ -7,6 +7,7 @@ use App\Models\Indikator;
 use App\Models\Jawaban;
 use App\Models\Kecamatan;
 use App\Models\Parameter;
+use App\Models\SubItem;
 use App\Models\SubVariabel;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -31,11 +32,20 @@ class QpiCalculationService
             return null;
         }
 
-        // Count how many have nilai = true (Ya)
-        $yaCount = $jawabans->where('nilai', true)->count();
+        $totalSubItems = SubItem::where('indikator_id', $indikatorId)->count();
+        if ($totalSubItems <= 0) {
+            return null;
+        }
 
-        // Divisor is always 5 (total sub-items), replicating Excel behavior
-        return ($yaCount / 5) * 100;
+        $byPeriode = $jawabans->groupBy(fn ($item) => ($item->periode_tahun ?? 0).'-'.($item->periode_bulan ?? 0));
+
+        $periodScores = [];
+        foreach ($byPeriode as $periodJawabans) {
+            $yaCount = $periodJawabans->where('nilai', true)->count();
+            $periodScores[] = ($yaCount / $totalSubItems) * 100;
+        }
+
+        return ! empty($periodScores) ? (array_sum($periodScores) / count($periodScores)) : null;
     }
 
     /**
@@ -49,21 +59,35 @@ class QpiCalculationService
         // Get all jawabans for this kecamatan, grouped by indikator
         $query = Jawaban::where('kecamatan_id', $kecamatanId)
             ->join('sub_items', 'jawabans.sub_item_id', '=', 'sub_items.id')
-            ->select('sub_items.indikator_id', 'jawabans.nilai');
+            ->select('sub_items.indikator_id', 'jawabans.nilai', 'jawabans.periode_bulan', 'jawabans.periode_tahun');
 
         $query = $this->applyPeriodeFilter($query, $bulan, $tahun);
 
         $jawabans = $query->get()->groupBy('indikator_id');
 
+        $subItemCounts = SubItem::select('indikator_id', DB::raw('count(*) as total'))
+            ->groupBy('indikator_id')
+            ->pluck('total', 'indikator_id')
+            ->toArray();
+
         $allIndikatorIds = Indikator::pluck('id')->toArray();
         $result = [];
 
         foreach ($allIndikatorIds as $indId) {
-            if (! isset($jawabans[$indId]) || $jawabans[$indId]->isEmpty()) {
+            $totalSubItems = $subItemCounts[$indId] ?? 0;
+
+            if (! isset($jawabans[$indId]) || $jawabans[$indId]->isEmpty() || $totalSubItems <= 0) {
                 $result[$indId] = null;
             } else {
-                $yaCount = $jawabans[$indId]->where('nilai', true)->count();
-                $result[$indId] = ($yaCount / 5) * 100;
+                $byPeriode = $jawabans[$indId]->groupBy(fn ($item) => ($item->periode_tahun ?? 0).'-'.($item->periode_bulan ?? 0));
+
+                $periodScores = [];
+                foreach ($byPeriode as $periodJawabans) {
+                    $yaCount = $periodJawabans->where('nilai', true)->count();
+                    $periodScores[] = ($yaCount / $totalSubItems) * 100;
+                }
+
+                $result[$indId] = ! empty($periodScores) ? (array_sum($periodScores) / count($periodScores)) : null;
             }
         }
 
@@ -497,7 +521,7 @@ class QpiCalculationService
             ->join('sub_variabels', 'indikators.sub_variabel_id', '=', 'sub_variabels.id')
             ->join('kuesioners', 'sub_variabels.kuesioner_id', '=', 'kuesioners.id')
             ->whereNotNull('jawabans.nilai')
-            ->select('kuesioners.kode', 'jawabans.kecamatan_id', DB::raw('count(*) as filled'))
+            ->select('kuesioners.kode', 'jawabans.kecamatan_id', DB::raw('count(distinct jawabans.sub_item_id) as filled'))
             ->groupBy('kuesioners.kode', 'jawabans.kecamatan_id');
 
         if ($bulan !== null) {

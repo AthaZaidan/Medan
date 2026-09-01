@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             DimensiIndikatorBobotSeeder::class,
             ParameterSeeder::class,
             UserSeeder::class,
+            JawabanSeeder::class,
         ]);
     }
 }
