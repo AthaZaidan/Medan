@@ -42,6 +42,43 @@
         </div>
     </div>
 
+    {{-- Filter Periode --}}
+    <div class="admin-card p-4 no-print">
+        <form method="GET" action="{{ route('kecamatan.detail', $kecamatan->id) }}" class="flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-blue-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 21l3.39-.62C9.28 20.76 10.6 21 12 21c4.97 0 9-4.03 9-9s-4.03-9-9-9z"/></svg>
+                <span class="text-xs font-bold text-slate-800 uppercase tracking-wider">Filter Periode Evaluasi</span>
+            </div>
+
+            <div class="flex items-center gap-2 flex-wrap">
+                <select name="bulan" class="text-xs rounded border-slate-300 bg-white py-1.5 px-3 font-medium text-slate-700 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                    <option value="">-- Semua Bulan (Rata-rata) --</option>
+                    @foreach([1=>'Januari', 2=>'Februari', 3=>'Maret', 4=>'April', 5=>'Mei', 6=>'Juni', 7=>'Juli', 8=>'Agustus', 9=>'September', 10=>'Oktober', 11=>'November', 12=>'Desember'] as $bNum => $bName)
+                        <option value="{{ $bNum }}" {{ $bulan == $bNum ? 'selected' : '' }}>{{ $bName }}</option>
+                    @endforeach
+                </select>
+
+                <select name="tahun" class="text-xs rounded border-slate-300 bg-white py-1.5 px-3 font-medium text-slate-700 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                    <option value="">-- Semua Tahun --</option>
+                    @foreach([2026, 2025, 2024] as $tVal)
+                        <option value="{{ $tVal }}" {{ $tahun == $tVal ? 'selected' : '' }}>Tahun {{ $tVal }}</option>
+                    @endforeach
+                </select>
+
+                <button type="submit" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-blue-900 text-white text-xs font-bold hover:bg-blue-800 transition-colors shadow-sm cursor-pointer">
+                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/></svg>
+                    Terapkan Filter
+                </button>
+
+                @if($bulan || $tahun)
+                    <a href="{{ route('kecamatan.detail', $kecamatan->id) }}" class="inline-flex items-center gap-1 px-3 py-1.5 rounded border border-slate-300 bg-slate-100 text-slate-700 text-xs font-semibold hover:bg-slate-200 transition-colors">
+                        Reset
+                    </a>
+                @endif
+            </div>
+        </form>
+    </div>
+
     {{-- Floor Warning --}}
     @if($floorStatus === 'FLOOR_AKTIF')
         <div class="p-3.5 rounded bg-amber-50 border border-amber-200 text-xs text-amber-900 font-medium">
@@ -65,6 +102,70 @@
                 <div class="text-[10px] text-slate-500 font-medium mt-1">{{ $dimNames[$d] }}</div>
             </div>
         @endforeach
+    </div>
+
+    {{-- Grafik Tren Perkembangan QPI Per Periode --}}
+    @if($trenKecamatan->count() > 0)
+        <div class="admin-card overflow-hidden">
+            <div class="admin-card-header flex items-center justify-between">
+                <div>
+                    <h2 class="text-xs font-bold text-slate-900 uppercase tracking-wider">Grafik Tren Perkembangan QPI-K (Per Periode)</h2>
+                    <p class="text-[11px] text-slate-500 mt-0.5">Riwayat Perkembangan Nilai QPI Inti di Kecamatan {{ $kecamatan->nama }}</p>
+                </div>
+                <span class="text-xs font-bold px-2.5 py-1 rounded bg-blue-50 text-blue-900 border border-blue-200">
+                    {{ $trenKecamatan->count() }} Periode Evaluasi
+                </span>
+            </div>
+            <div class="p-5 bg-white space-y-4">
+                <div class="relative h-64 w-full">
+                    <canvas id="trenChart"></canvas>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    {{-- Grafik Penilaian Per Modul Kuesioner --}}
+    <div class="admin-card overflow-hidden">
+        <div class="admin-card-header flex items-center justify-between">
+            <div>
+                <h2 class="text-xs font-bold text-slate-900 uppercase tracking-wider">Grafik Penilaian Per Modul Kuesioner (Modul A – F)</h2>
+                <p class="text-[11px] text-slate-500 mt-0.5">Perbandingan Nilai Evaluasi Per Modul di Kecamatan {{ $kecamatan->nama }}</p>
+            </div>
+            <span class="text-xs font-bold px-2.5 py-1 rounded bg-blue-50 text-blue-900 border border-blue-200">
+                6 Modul Kuesioner
+            </span>
+        </div>
+        <div class="p-5 bg-white space-y-4">
+            <div class="relative h-72 w-full">
+                <canvas id="kecamatanModulChart"></canvas>
+            </div>
+
+            {{-- Rekap Ringkas 6 Modul Kecamatan --}}
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 pt-3 border-t border-slate-100">
+                @foreach($skorModulKecamatan as $item)
+                    @php
+                        $score = $item['skor'];
+                        $modulNames = [
+                            'A' => 'Kepuasan Masyarakat',
+                            'B' => 'Kinerja Aparatur',
+                            'C' => 'Tata Kelola',
+                            'D' => 'Kematangan Digital',
+                            'E' => 'Tematik PKH',
+                            'F' => 'Ketertiban Umum',
+                        ];
+                    @endphp
+                    <div class="p-2.5 rounded border border-slate-200 bg-slate-50 text-center">
+                        <div class="text-[10px] font-bold text-slate-500 uppercase">Modul {{ $item['kuesioner']->kode }}</div>
+                        <div class="text-base font-extrabold mt-0.5 tabular-nums @if($score !== null) @include('components._score-color-class', ['score' => $score]) @else text-slate-300 @endif">
+                            {{ $score !== null ? number_format($score, 1) : '—' }}
+                        </div>
+                        <div class="text-[10px] text-slate-500 font-medium truncate mt-0.5" title="{{ $item['kuesioner']->nama }}">
+                            {{ $modulNames[$item['kuesioner']->kode] ?? $item['kuesioner']->nama }}
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
     </div>
 
     {{-- Sub-variabel Breakdown --}}
@@ -118,4 +219,161 @@
     </div>
 
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script>
+(function () {
+    const rawData = @json($skorModulKecamatan);
+    const canvas = document.getElementById('kecamatanModulChart');
+    if (canvas && rawData.length > 0) {
+        const labels = rawData.map(m => `Modul ${m.kuesioner.kode}`);
+        const values = rawData.map(m => m.skor !== null ? Number(m.skor.toFixed(1)) : 0);
+
+        const valueLabelPlugin = {
+            id: 'valueLabelPlugin',
+            afterDatasetDraw(chart) {
+                const { ctx } = chart;
+                chart.data.datasets.forEach((dataset, i) => {
+                    const meta = chart.getDatasetMeta(i);
+                    meta.data.forEach((bar, index) => {
+                        const value = dataset.data[index];
+                        if (value !== null && value !== undefined && value > 0) {
+                            ctx.save();
+                            ctx.font = 'bold 10px "Plus Jakarta Sans", sans-serif';
+                            ctx.fillStyle = '#334155';
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'bottom';
+                            ctx.fillText(Number(value).toFixed(1), bar.x, bar.y - 4);
+                            ctx.restore();
+                        }
+                    });
+                });
+            }
+        };
+
+        new Chart(canvas, {
+            type: 'bar',
+            plugins: [valueLabelPlugin],
+            data: {
+                labels,
+                datasets: [{
+                    label: 'Skor Modul',
+                    data: values,
+                    backgroundColor: [
+                        'rgba(30, 64, 175, 0.85)',
+                        'rgba(2, 132, 199, 0.85)',
+                        'rgba(5, 150, 105, 0.85)',
+                        'rgba(217, 119, 6, 0.85)',
+                        'rgba(124, 58, 237, 0.85)',
+                        'rgba(225, 29, 72, 0.85)'
+                    ],
+                    borderColor: [
+                        '#1e40af', '#0284c7', '#059669', '#d97706', '#7c3aed', '#e11d48'
+                    ],
+                    borderWidth: 1.5,
+                    borderRadius: { topLeft: 6, topRight: 6 },
+                    barPercentage: 0.55,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'x',
+                layout: { padding: { top: 22 } },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: '#0f172a',
+                        padding: 10,
+                        callbacks: {
+                            title: ctx => {
+                                const m = rawData[ctx[0].dataIndex];
+                                return `Modul ${m.kuesioner.kode} — ${m.kuesioner.nama}`;
+                            },
+                            label: ctx => ` Skor Modul: ${ctx.raw} / 100`
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            font: { size: 11, weight: 'bold' },
+                            color: '#1e293b'
+                        },
+                        grid: { display: false }
+                    },
+                    y: {
+                        min: 0,
+                        max: 105,
+                        ticks: {
+                            font: { size: 10 },
+                            stepSize: 20,
+                            callback: v => v > 100 ? '' : v
+                        },
+                        grid: { color: 'rgba(226, 232, 240, 0.7)' }
+                    }
+                }
+            }
+        });
+    }
+
+    // ─── Line Chart: Tren Perkembangan QPI Per Periode ───────────────────
+    const trenRaw = @json($trenKecamatan);
+    const trenCanvas = document.getElementById('trenChart');
+    if (trenCanvas && trenRaw.length > 0) {
+        const trenLabels = trenRaw.map(t => t.periode);
+        const trenValues = trenRaw.map(t => t.qpi);
+
+        new Chart(trenCanvas, {
+            type: 'line',
+            data: {
+                labels: trenLabels,
+                datasets: [{
+                    label: 'Skor QPI Inti',
+                    data: trenValues,
+                    borderColor: '#1e40af',
+                    backgroundColor: 'rgba(30, 64, 175, 0.08)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.35,
+                    pointBackgroundColor: '#1e40af',
+                    pointBorderColor: '#ffffff',
+                    pointBorderWidth: 2,
+                    pointRadius: 6,
+                    pointHoverRadius: 8,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: '#0f172a',
+                        padding: 10,
+                        callbacks: {
+                            label: ctx => {
+                                const row = trenRaw[ctx.dataIndex];
+                                return ` QPI Inti: ${ctx.raw} (${row.kategori})`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: { font: { size: 11, weight: 'bold' }, color: '#1e293b' },
+                        grid: { display: false }
+                    },
+                    y: {
+                        min: 0,
+                        max: 100,
+                        ticks: { font: { size: 10 }, stepSize: 20 },
+                        grid: { color: 'rgba(226, 232, 240, 0.7)' }
+                    }
+                }
+            }
+        });
+    }
+})();
+</script>
 @endsection

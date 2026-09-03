@@ -41,20 +41,20 @@ class SubVariabelSeeder extends Seeder
             ['kuesioner' => 'D', 'nama' => 'Infrastruktur TIK, SOP Digital & Pengaduan Elektronik', 'dimensi_kode' => 'D4', 'bobot_subtotal' => 30, 'urutan' => 3],
 
             // Kuesioner E → D6 (6 sub-variabel = 20 indikator)
-            ['kuesioner' => 'E', 'nama' => 'Aparatur: F1 Identifikasi & Verifikasi Sasaran', 'dimensi_kode' => 'D6', 'bobot_subtotal' => 20, 'urutan' => 1],
-            ['kuesioner' => 'E', 'nama' => 'Aparatur: F2 Kelengkapan Administrasi', 'dimensi_kode' => 'D6', 'bobot_subtotal' => 20, 'urutan' => 2],
-            ['kuesioner' => 'E', 'nama' => 'Aparatur: F3 Musyawarah Kelurahan', 'dimensi_kode' => 'D6', 'bobot_subtotal' => 20, 'urutan' => 3],
-            ['kuesioner' => 'E', 'nama' => 'Aparatur: F4 Kualitas Pendampingan Penerima', 'dimensi_kode' => 'D6', 'bobot_subtotal' => 20, 'urutan' => 4],
-            ['kuesioner' => 'E', 'nama' => 'Aparatur: F5 Pemanfaatan SIKS-NG Digital', 'dimensi_kode' => 'D6', 'bobot_subtotal' => 20, 'urutan' => 5],
-            ['kuesioner' => 'E', 'nama' => 'Penerima Manfaat PKH Makmur (Pengalaman Penerima, P1–P5)', 'dimensi_kode' => 'D6', 'bobot_subtotal' => 100, 'urutan' => 6],
+            ['kuesioner' => 'E', 'nama' => 'Aparatur: E1 Identifikasi & Verifikasi Sasaran', 'dimensi_kode' => 'D6', 'bobot_subtotal' => 20, 'urutan' => 1],
+            ['kuesioner' => 'E', 'nama' => 'Aparatur: E2 Kelengkapan Administrasi', 'dimensi_kode' => 'D6', 'bobot_subtotal' => 20, 'urutan' => 2],
+            ['kuesioner' => 'E', 'nama' => 'Aparatur: E3 Musyawarah Kelurahan', 'dimensi_kode' => 'D6', 'bobot_subtotal' => 20, 'urutan' => 3],
+            ['kuesioner' => 'E', 'nama' => 'Aparatur: E4 Kualitas Pendampingan Penerima', 'dimensi_kode' => 'D6', 'bobot_subtotal' => 20, 'urutan' => 4],
+            ['kuesioner' => 'E', 'nama' => 'Aparatur: E5 Pemanfaatan SIKS-NG Digital', 'dimensi_kode' => 'D6', 'bobot_subtotal' => 20, 'urutan' => 5],
+            ['kuesioner' => 'E', 'nama' => 'Penerima Manfaat PKH Makmur (Pengalaman Penerima)', 'dimensi_kode' => 'D6', 'bobot_subtotal' => 100, 'urutan' => 6],
 
             // Kuesioner F → D7 (6 sub-variabel = 21 indikator)
-            ['kuesioner' => 'F', 'nama' => 'Aparatur: G1 Kepatuhan Warga', 'dimensi_kode' => 'D7', 'bobot_subtotal' => 20, 'urutan' => 1],
-            ['kuesioner' => 'F', 'nama' => 'Aparatur: G2 Operasi Penertiban Satpol PP', 'dimensi_kode' => 'D7', 'bobot_subtotal' => 20, 'urutan' => 2],
-            ['kuesioner' => 'F', 'nama' => 'Aparatur: G3 Kondisi Ruang Publik', 'dimensi_kode' => 'D7', 'bobot_subtotal' => 20, 'urutan' => 3],
-            ['kuesioner' => 'F', 'nama' => 'Aparatur: G4 Tertib Sosial & Usaha', 'dimensi_kode' => 'D7', 'bobot_subtotal' => 20, 'urutan' => 4],
-            ['kuesioner' => 'F', 'nama' => 'Aparatur: G5 Partisipasi Warga', 'dimensi_kode' => 'D7', 'bobot_subtotal' => 20, 'urutan' => 5],
-            ['kuesioner' => 'F', 'nama' => 'Warga/Tokoh Masyarakat: Kondisi Ketertiban (Persepsi Warga, W1–W5)', 'dimensi_kode' => 'D7', 'bobot_subtotal' => 100, 'urutan' => 6],
+            ['kuesioner' => 'F', 'nama' => 'Aparatur: F1 Kepatuhan Warga', 'dimensi_kode' => 'D7', 'bobot_subtotal' => 20, 'urutan' => 1],
+            ['kuesioner' => 'F', 'nama' => 'Aparatur: F2 Operasi Penertiban Satpol PP', 'dimensi_kode' => 'D7', 'bobot_subtotal' => 20, 'urutan' => 2],
+            ['kuesioner' => 'F', 'nama' => 'Aparatur: F3 Kondisi Ruang Publik', 'dimensi_kode' => 'D7', 'bobot_subtotal' => 20, 'urutan' => 3],
+            ['kuesioner' => 'F', 'nama' => 'Aparatur: F4 Tertib Sosial & Usaha', 'dimensi_kode' => 'D7', 'bobot_subtotal' => 20, 'urutan' => 4],
+            ['kuesioner' => 'F', 'nama' => 'Aparatur: F5 Partisipasi Warga', 'dimensi_kode' => 'D7', 'bobot_subtotal' => 20, 'urutan' => 5],
+            ['kuesioner' => 'F', 'nama' => 'Warga/Tokoh Masyarakat: Kondisi Ketertiban (Persepsi Warga)', 'dimensi_kode' => 'D7', 'bobot_subtotal' => 100, 'urutan' => 6],
         ];
 
         foreach ($subVariabels as $sv) {

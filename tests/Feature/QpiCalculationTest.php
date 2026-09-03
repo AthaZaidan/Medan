@@ -19,6 +19,7 @@ beforeEach(function () {
 });
 
 test('skor indikator calculates correctly according to Guttman formula', function () {
+    Jawaban::query()->delete();
     $kecamatan = Kecamatan::first();
     $indikator = Indikator::first();
     $subItems = SubItem::where('indikator_id', $indikator->id)->get();
@@ -40,6 +41,7 @@ test('skor indikator calculates correctly according to Guttman formula', functio
 });
 
 test('skor dimensi aggregates indicator level directly with weights', function () {
+    Jawaban::query()->delete();
     $kecamatan = Kecamatan::first();
 
     // Seed answers for all indicators of Kuesioner A (D1)
@@ -63,10 +65,11 @@ test('skor dimensi aggregates indicator level directly with weights', function (
 });
 
 test('floor status becomes active when a core dimension score is below 50', function () {
+    Jawaban::query()->delete();
     $kecamatan = Kecamatan::first();
 
-    // Fill all 5 core dimensions D1-D5
-    foreach (['A', 'B', 'C', 'D'] as $kuesKode) {
+    // Fill all 5 core dimensions D1-D5 (Kuesioner A, B, C, D, E)
+    foreach (['A', 'B', 'C', 'D', 'E'] as $kuesKode) {
         $kuesioner = Kuesioner::where('kode', $kuesKode)->first();
         foreach ($kuesioner->indikators as $ind) {
             $subItems = SubItem::where('indikator_id', $ind->id)->get();
@@ -81,9 +84,9 @@ test('floor status becomes active when a core dimension score is below 50', func
         }
     }
 
-    // Now all D1-D5 are 80 -> floor should be TIDAK_AKTIF
+    // Now all D1-D5 are > 50 -> floor should be TIDAK_AKTIF
     expect($this->service->floorStatus($kecamatan->id))->toBe('TIDAK_AKTIF');
-    expect($this->service->kategori($kecamatan->id)['kategori'])->toBe('Baik');
+    expect($this->service->kategori($kecamatan->id)['kategori'])->toBe('Cukup');
 });
 
 test('dashboard routes respond successfully', function () {

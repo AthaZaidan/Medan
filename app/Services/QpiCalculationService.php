@@ -6,6 +6,7 @@ use App\Models\Dimensi;
 use App\Models\Indikator;
 use App\Models\Jawaban;
 use App\Models\Kecamatan;
+use App\Models\Kuesioner;
 use App\Models\Parameter;
 use App\Models\SubItem;
 use App\Models\SubVariabel;
@@ -123,6 +124,92 @@ class QpiCalculationService
         }
 
         return $sumWeighted / $sumBobot;
+    }
+
+    /**
+     * Calculate Kuesioner / Modul score for a kecamatan.
+     * Weighted average of indicator scores within the kuesioner.
+     */
+    public function skorKuesioner(int $kuesionerId, int $kecamatanId, ?array $skorIndikatorCache = null, ?int $bulan = null, ?int $tahun = null): ?float
+    {
+        $subVariabelIds = SubVariabel::where('kuesioner_id', $kuesionerId)->pluck('id');
+        $indikators = Indikator::whereIn('sub_variabel_id', $subVariabelIds)->get();
+
+        $sumWeighted = 0;
+        $sumBobot = 0;
+
+        foreach ($indikators as $ind) {
+            $skor = $skorIndikatorCache !== null
+                ? ($skorIndikatorCache[$ind->id] ?? null)
+                : $this->skorIndikator($ind->id, $kecamatanId, $bulan, $tahun);
+
+            if ($skor !== null) {
+                $sumWeighted += $skor * (float) $ind->bobot_asli;
+                $sumBobot += (float) $ind->bobot_asli;
+            }
+        }
+
+        if ($sumBobot <= 0) {
+            return null;
+        }
+
+        return $sumWeighted / $sumBobot;
+    }
+
+    /**
+     * Calculate city average score for each Kuesioner (Modul A-F).
+     *
+     * @return Collection<int, array{kuesioner: Kuesioner, rata_rata_kota: float|null, skor_per_kecamatan: array<int, float|null>}>
+     */
+    public function skorModulKota(?int $bulan = null, ?int $tahun = null): Collection
+    {
+        $kecamatans = Kecamatan::orderBy('urutan')->get();
+        $kuesioners = Kuesioner::orderBy('id')->get();
+
+        $allScores = [];
+        foreach ($kecamatans as $kec) {
+            $allScores[$kec->id] = $this->allSkorIndikator($kec->id, $bulan, $tahun);
+        }
+
+        $results = [];
+        foreach ($kuesioners as $kuesioner) {
+            $scores = [];
+            foreach ($kecamatans as $kec) {
+                $scores[$kec->id] = $this->skorKuesioner($kuesioner->id, $kec->id, $allScores[$kec->id]);
+            }
+
+            $validScores = array_filter($scores, fn ($s) => $s !== null);
+            $rataRata = ! empty($validScores) ? array_sum($validScores) / count($validScores) : null;
+
+            $results[] = [
+                'kuesioner' => $kuesioner,
+                'rata_rata_kota' => $rataRata,
+                'skor_per_kecamatan' => $scores,
+            ];
+        }
+
+        return collect($results);
+    }
+
+    /**
+     * Calculate all module scores for a specific kecamatan.
+     *
+     * @return Collection<int, array{kuesioner: Kuesioner, skor: float|null}>
+     */
+    public function skorModulKecamatan(int $kecamatanId, ?int $bulan = null, ?int $tahun = null): Collection
+    {
+        $kuesioners = Kuesioner::orderBy('id')->get();
+        $skorIndikatorCache = $this->allSkorIndikator($kecamatanId, $bulan, $tahun);
+
+        $results = [];
+        foreach ($kuesioners as $kuesioner) {
+            $results[] = [
+                'kuesioner' => $kuesioner,
+                'skor' => $this->skorKuesioner($kuesioner->id, $kecamatanId, $skorIndikatorCache),
+            ];
+        }
+
+        return collect($results);
     }
 
     /**
@@ -618,6 +705,30 @@ class QpiCalculationService
         }
 
         return $distribusi;
+    }
+
+    /**
+     * Get historical trend of QPI Inti score for a specific kecamatan across available periods.
+     *
+     * @return Collection<int, array{periode: string, bulan: int, tahun: int, qpi: float|null, kategori: string}>
+     */
+    public function trenKecamatan(int $kecamatanId): Collection
+    {
+        $periodes = $this->getPeriodeList()->reverse()->values();
+
+        return $periodes->map(function ($p) use ($kecamatanId) {
+            $skorDimensi = $this->allSkorDimensi($kecamatanId, $p['bulan'], $p['tahun']);
+            $qpi = $this->qpiInti($kecamatanId, $skorDimensi);
+            $kat = $this->kategori($kecamatanId, $skorDimensi);
+
+            return [
+                'periode' => $p['label'],
+                'bulan' => $p['bulan'],
+                'tahun' => $p['tahun'],
+                'qpi' => $qpi !== null ? (float) number_format($qpi, 1) : null,
+                'kategori' => $kat['kategori'] ?? '—',
+            ];
+        });
     }
 
     /**

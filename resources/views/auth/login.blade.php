@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login — Pemko Medan QPI 2026</title>
+    <title>Login — ICMI Muda Survei 2026</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     {{-- Google Fonts: Plus Jakarta Sans --}}
@@ -13,16 +13,16 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="min-h-screen bg-white flex flex-col justify-center items-center p-4 font-sans text-slate-900">
+<body class="min-h-screen bg-slate-50 flex flex-col justify-center items-center p-4 font-sans text-slate-900">
 
     <div class="w-full max-w-sm space-y-6 my-auto">
         
         {{-- Minimalist Header --}}
         <div class="text-center space-y-2">
-            <img src="{{ asset('images/logo-pemko-medan.jpg') }}" alt="Logo Pemko Medan" class="w-14 h-14 object-contain mx-auto">
+            <img src="{{ asset('images/logo-icmi-muda.png') }}" alt="Logo ICMI Muda" class="w-16 h-16 object-contain mx-auto">
             <div>
-                <h1 class="text-lg font-extrabold tracking-wide text-slate-900 uppercase">PEMERINTAH KOTA MEDAN</h1>
-                <p class="text-xs font-semibold text-slate-500">Sistem Evaluasi QPI Kewilyahan 2026</p>
+                <h1 class="text-xl font-extrabold tracking-wide text-blue-900 uppercase">ICMI MUDA</h1>
+                <p class="text-xs font-semibold text-slate-500">Sistem Evaluasi Survei Kewilayahan</p>
             </div>
         </div>
 
@@ -90,7 +90,7 @@
 
         {{-- Minimalist Footer --}}
         <div class="text-center">
-            <p class="text-[11px] font-medium text-slate-400">© 2026 Pemerintah Kota Medan</p>
+            <p class="text-[11px] font-medium text-slate-400">© 2026 ICMI Muda</p>
         </div>
 
     </div>

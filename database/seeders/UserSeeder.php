@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
         User::updateOrCreate(
             ['email' => 'admin@medan.go.id'],
             [
-                'name' => 'Administrator Pemko Medan',
+                'name' => 'Administrator ICMI Muda',
                 'password' => 'password',
                 'role' => 'admin',
                 'kecamatan_id' => null,

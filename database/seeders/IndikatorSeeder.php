@@ -130,62 +130,62 @@ class IndikatorSeeder extends Seeder
             ['kuesioner' => 'D', 'sub_variabel_urutan' => 3, 'kode' => 'D9', 'pernyataan' => 'SOP layanan digital terdokumentasi dan dijalankan', 'bobot_asli' => 10, 'urutan' => 2],
             ['kuesioner' => 'D', 'sub_variabel_urutan' => 3, 'kode' => 'D10', 'pernyataan' => 'Sistem pengaduan elektronik terintegrasi', 'bobot_asli' => 10, 'urutan' => 3],
 
-            // ═══ KUESIONER E: PKH Makmur (20 indikator) ═══
-            // Sub-var 1: F1 Identifikasi & Verifikasi (3 ind)
-            ['kuesioner' => 'E', 'sub_variabel_urutan' => 1, 'kode' => 'F1a', 'pernyataan' => 'Identifikasi sasaran PKH sesuai basis data terpadu', 'bobot_asli' => 6.7, 'urutan' => 1],
-            ['kuesioner' => 'E', 'sub_variabel_urutan' => 1, 'kode' => 'F1b', 'pernyataan' => 'Verifikasi kelayakan penerima dilakukan secara berkala', 'bobot_asli' => 6.7, 'urutan' => 2],
-            ['kuesioner' => 'E', 'sub_variabel_urutan' => 1, 'kode' => 'F1c', 'pernyataan' => 'Pemutakhiran data penerima terlaksana', 'bobot_asli' => 6.6, 'urutan' => 3],
-            // Sub-var 2: F2 Kelengkapan Administrasi (3 ind)
-            ['kuesioner' => 'E', 'sub_variabel_urutan' => 2, 'kode' => 'F2a', 'pernyataan' => 'Berkas administrasi penerima lengkap', 'bobot_asli' => 6.7, 'urutan' => 1],
-            ['kuesioner' => 'E', 'sub_variabel_urutan' => 2, 'kode' => 'F2b', 'pernyataan' => 'Dokumen pencairan bantuan terdokumentasi rapi', 'bobot_asli' => 6.7, 'urutan' => 2],
-            ['kuesioner' => 'E', 'sub_variabel_urutan' => 2, 'kode' => 'F2c', 'pernyataan' => 'Laporan pertanggungjawaban disusun tepat waktu', 'bobot_asli' => 6.6, 'urutan' => 3],
-            // Sub-var 3: F3 Musyawarah Kelurahan (3 ind)
-            ['kuesioner' => 'E', 'sub_variabel_urutan' => 3, 'kode' => 'F3a', 'pernyataan' => 'Musyawarah kelurahan dilaksanakan rutin', 'bobot_asli' => 6.7, 'urutan' => 1],
-            ['kuesioner' => 'E', 'sub_variabel_urutan' => 3, 'kode' => 'F3b', 'pernyataan' => 'Partisipasi warga dalam musyawarah tinggi', 'bobot_asli' => 6.7, 'urutan' => 2],
-            ['kuesioner' => 'E', 'sub_variabel_urutan' => 3, 'kode' => 'F3c', 'pernyataan' => 'Hasil musyawarah ditindaklanjuti secara transparan', 'bobot_asli' => 6.6, 'urutan' => 3],
-            // Sub-var 4: F4 Kualitas Pendampingan (4 ind)
-            ['kuesioner' => 'E', 'sub_variabel_urutan' => 4, 'kode' => 'F4a', 'pernyataan' => 'Pendampingan penerima PKH dilakukan rutin', 'bobot_asli' => 5, 'urutan' => 1],
-            ['kuesioner' => 'E', 'sub_variabel_urutan' => 4, 'kode' => 'F4b', 'pernyataan' => 'Kualitas pendampingan memenuhi standar', 'bobot_asli' => 5, 'urutan' => 2],
-            ['kuesioner' => 'E', 'sub_variabel_urutan' => 4, 'kode' => 'F4c', 'pernyataan' => 'Pendamping memiliki kompetensi yang memadai', 'bobot_asli' => 5, 'urutan' => 3],
-            ['kuesioner' => 'E', 'sub_variabel_urutan' => 4, 'kode' => 'F4d', 'pernyataan' => 'Rasio pendamping terhadap penerima proporsional', 'bobot_asli' => 5, 'urutan' => 4],
-            // Sub-var 5: F5 Pemanfaatan SIKS-NG (2 ind)
-            ['kuesioner' => 'E', 'sub_variabel_urutan' => 5, 'kode' => 'F5a', 'pernyataan' => 'Pemanfaatan SIKS-NG untuk pendataan efektif', 'bobot_asli' => 10, 'urutan' => 1],
-            ['kuesioner' => 'E', 'sub_variabel_urutan' => 5, 'kode' => 'F5b', 'pernyataan' => 'Pelaporan melalui SIKS-NG tepat waktu', 'bobot_asli' => 10, 'urutan' => 2],
-            // Sub-var 6: Penerima (5 ind, bobot 20 each)
-            ['kuesioner' => 'E', 'sub_variabel_urutan' => 6, 'kode' => 'P1', 'pernyataan' => 'Penerima merasa terbantu oleh program PKH', 'bobot_asli' => 20, 'urutan' => 1],
-            ['kuesioner' => 'E', 'sub_variabel_urutan' => 6, 'kode' => 'P2', 'pernyataan' => 'Penerima memahami hak dan kewajibannya', 'bobot_asli' => 20, 'urutan' => 2],
-            ['kuesioner' => 'E', 'sub_variabel_urutan' => 6, 'kode' => 'P3', 'pernyataan' => 'Bantuan diterima tepat waktu dan sesuai jumlah', 'bobot_asli' => 20, 'urutan' => 3],
-            ['kuesioner' => 'E', 'sub_variabel_urutan' => 6, 'kode' => 'P4', 'pernyataan' => 'Pendampingan dirasakan bermanfaat oleh penerima', 'bobot_asli' => 20, 'urutan' => 4],
-            ['kuesioner' => 'E', 'sub_variabel_urutan' => 6, 'kode' => 'P5', 'pernyataan' => 'Proses graduasi mandiri berjalan dengan baik', 'bobot_asli' => 20, 'urutan' => 5],
+            // ═══ KUESIONER E: PKH Makmur (20 indikator: E1 - E20) ═══
+            // Sub-var 1: Identifikasi & Verifikasi (3 ind: E1 - E3)
+            ['kuesioner' => 'E', 'sub_variabel_urutan' => 1, 'kode' => 'E1', 'pernyataan' => 'Identifikasi sasaran PKH sesuai basis data terpadu', 'bobot_asli' => 6.7, 'urutan' => 1],
+            ['kuesioner' => 'E', 'sub_variabel_urutan' => 1, 'kode' => 'E2', 'pernyataan' => 'Verifikasi kelayakan penerima dilakukan secara berkala', 'bobot_asli' => 6.7, 'urutan' => 2],
+            ['kuesioner' => 'E', 'sub_variabel_urutan' => 1, 'kode' => 'E3', 'pernyataan' => 'Pemutakhiran data penerima terlaksana', 'bobot_asli' => 6.6, 'urutan' => 3],
+            // Sub-var 2: Kelengkapan Administrasi (3 ind: E4 - E6)
+            ['kuesioner' => 'E', 'sub_variabel_urutan' => 2, 'kode' => 'E4', 'pernyataan' => 'Berkas administrasi penerima lengkap', 'bobot_asli' => 6.7, 'urutan' => 1],
+            ['kuesioner' => 'E', 'sub_variabel_urutan' => 2, 'kode' => 'E5', 'pernyataan' => 'Dokumen pencairan bantuan terdokumentasi rapi', 'bobot_asli' => 6.7, 'urutan' => 2],
+            ['kuesioner' => 'E', 'sub_variabel_urutan' => 2, 'kode' => 'E6', 'pernyataan' => 'Laporan pertanggungjawaban disusun tepat waktu', 'bobot_asli' => 6.6, 'urutan' => 3],
+            // Sub-var 3: Musyawarah Kelurahan (3 ind: E7 - E9)
+            ['kuesioner' => 'E', 'sub_variabel_urutan' => 3, 'kode' => 'E7', 'pernyataan' => 'Musyawarah kelurahan dilaksanakan rutin', 'bobot_asli' => 6.7, 'urutan' => 1],
+            ['kuesioner' => 'E', 'sub_variabel_urutan' => 3, 'kode' => 'E8', 'pernyataan' => 'Partisipasi warga dalam musyawarah tinggi', 'bobot_asli' => 6.7, 'urutan' => 2],
+            ['kuesioner' => 'E', 'sub_variabel_urutan' => 3, 'kode' => 'E9', 'pernyataan' => 'Hasil musyawarah ditindaklanjuti secara transparan', 'bobot_asli' => 6.6, 'urutan' => 3],
+            // Sub-var 4: Kualitas Pendampingan (4 ind: E10 - E13)
+            ['kuesioner' => 'E', 'sub_variabel_urutan' => 4, 'kode' => 'E10', 'pernyataan' => 'Pendampingan penerima PKH dilakukan rutin', 'bobot_asli' => 5, 'urutan' => 1],
+            ['kuesioner' => 'E', 'sub_variabel_urutan' => 4, 'kode' => 'E11', 'pernyataan' => 'Kualitas pendampingan memenuhi standar', 'bobot_asli' => 5, 'urutan' => 2],
+            ['kuesioner' => 'E', 'sub_variabel_urutan' => 4, 'kode' => 'E12', 'pernyataan' => 'Pendamping memiliki kompetensi yang memadai', 'bobot_asli' => 5, 'urutan' => 3],
+            ['kuesioner' => 'E', 'sub_variabel_urutan' => 4, 'kode' => 'E13', 'pernyataan' => 'Rasio pendamping terhadap penerima proporsional', 'bobot_asli' => 5, 'urutan' => 4],
+            // Sub-var 5: Pemanfaatan SIKS-NG (2 ind: E14 - E15)
+            ['kuesioner' => 'E', 'sub_variabel_urutan' => 5, 'kode' => 'E14', 'pernyataan' => 'Pemanfaatan SIKS-NG untuk pendataan efektif', 'bobot_asli' => 10, 'urutan' => 1],
+            ['kuesioner' => 'E', 'sub_variabel_urutan' => 5, 'kode' => 'E15', 'pernyataan' => 'Pelaporan melalui SIKS-NG tepat waktu', 'bobot_asli' => 10, 'urutan' => 2],
+            // Sub-var 6: Penerima (5 ind: E16 - E20)
+            ['kuesioner' => 'E', 'sub_variabel_urutan' => 6, 'kode' => 'E16', 'pernyataan' => 'Penerima merasa terbantu oleh program PKH', 'bobot_asli' => 20, 'urutan' => 1],
+            ['kuesioner' => 'E', 'sub_variabel_urutan' => 6, 'kode' => 'E17', 'pernyataan' => 'Penerima memahami hak dan kewajibannya', 'bobot_asli' => 20, 'urutan' => 2],
+            ['kuesioner' => 'E', 'sub_variabel_urutan' => 6, 'kode' => 'E18', 'pernyataan' => 'Bantuan diterima tepat waktu dan sesuai jumlah', 'bobot_asli' => 20, 'urutan' => 3],
+            ['kuesioner' => 'E', 'sub_variabel_urutan' => 6, 'kode' => 'E19', 'pernyataan' => 'Pendampingan dirasakan bermanfaat oleh penerima', 'bobot_asli' => 20, 'urutan' => 4],
+            ['kuesioner' => 'E', 'sub_variabel_urutan' => 6, 'kode' => 'E20', 'pernyataan' => 'Proses graduasi mandiri berjalan dengan baik', 'bobot_asli' => 20, 'urutan' => 5],
 
-            // ═══ KUESIONER F: Ketertiban Umum (21 indikator) ═══
-            // Sub-var 1: G1 Kepatuhan Warga (4 ind, bobot 5 each)
-            ['kuesioner' => 'F', 'sub_variabel_urutan' => 1, 'kode' => 'G1a', 'pernyataan' => 'Kepatuhan warga terhadap perda ketertiban umum', 'bobot_asli' => 5, 'urutan' => 1],
-            ['kuesioner' => 'F', 'sub_variabel_urutan' => 1, 'kode' => 'G1b', 'pernyataan' => 'Tingkat pelanggaran ketertiban menurun', 'bobot_asli' => 5, 'urutan' => 2],
-            ['kuesioner' => 'F', 'sub_variabel_urutan' => 1, 'kode' => 'G1c', 'pernyataan' => 'Kesadaran warga terhadap aturan tinggi', 'bobot_asli' => 5, 'urutan' => 3],
-            ['kuesioner' => 'F', 'sub_variabel_urutan' => 1, 'kode' => 'G1d', 'pernyataan' => 'Sosialisasi peraturan dilaksanakan rutin', 'bobot_asli' => 5, 'urutan' => 4],
-            // Sub-var 2: G2 Operasi Penertiban (4 ind, bobot 5 each)
-            ['kuesioner' => 'F', 'sub_variabel_urutan' => 2, 'kode' => 'G2a', 'pernyataan' => 'Operasi penertiban dilaksanakan secara berkala', 'bobot_asli' => 5, 'urutan' => 1],
-            ['kuesioner' => 'F', 'sub_variabel_urutan' => 2, 'kode' => 'G2b', 'pernyataan' => 'Koordinasi dengan instansi terkait berjalan baik', 'bobot_asli' => 5, 'urutan' => 2],
-            ['kuesioner' => 'F', 'sub_variabel_urutan' => 2, 'kode' => 'G2c', 'pernyataan' => 'Tindakan penertiban proporsional dan humanis', 'bobot_asli' => 5, 'urutan' => 3],
-            ['kuesioner' => 'F', 'sub_variabel_urutan' => 2, 'kode' => 'G2d', 'pernyataan' => 'Laporan hasil penertiban terdokumentasi', 'bobot_asli' => 5, 'urutan' => 4],
-            // Sub-var 3: G3 Kondisi Ruang Publik (3 ind)
-            ['kuesioner' => 'F', 'sub_variabel_urutan' => 3, 'kode' => 'G3a', 'pernyataan' => 'Kondisi ruang publik bersih dan tertib', 'bobot_asli' => 6.7, 'urutan' => 1],
-            ['kuesioner' => 'F', 'sub_variabel_urutan' => 3, 'kode' => 'G3b', 'pernyataan' => 'Tidak ada PKL liar di lokasi terlarang', 'bobot_asli' => 6.7, 'urutan' => 2],
-            ['kuesioner' => 'F', 'sub_variabel_urutan' => 3, 'kode' => 'G3c', 'pernyataan' => 'Fasilitas umum terpelihara dan aman', 'bobot_asli' => 6.6, 'urutan' => 3],
-            // Sub-var 4: G4 Tertib Sosial & Usaha (2 ind, bobot 10 each)
-            ['kuesioner' => 'F', 'sub_variabel_urutan' => 4, 'kode' => 'G4a', 'pernyataan' => 'Perizinan usaha ditegakkan sesuai ketentuan', 'bobot_asli' => 10, 'urutan' => 1],
-            ['kuesioner' => 'F', 'sub_variabel_urutan' => 4, 'kode' => 'G4b', 'pernyataan' => 'Ketertiban sosial di lingkungan usaha terjaga', 'bobot_asli' => 10, 'urutan' => 2],
-            // Sub-var 5: G5 Partisipasi Warga (3 ind)
-            ['kuesioner' => 'F', 'sub_variabel_urutan' => 5, 'kode' => 'G5a', 'pernyataan' => 'Partisipasi warga dalam menjaga ketertiban tinggi', 'bobot_asli' => 6.7, 'urutan' => 1],
-            ['kuesioner' => 'F', 'sub_variabel_urutan' => 5, 'kode' => 'G5b', 'pernyataan' => 'Sistem siskamling/ronda berjalan aktif', 'bobot_asli' => 6.7, 'urutan' => 2],
-            ['kuesioner' => 'F', 'sub_variabel_urutan' => 5, 'kode' => 'G5c', 'pernyataan' => 'Pelaporan gangguan ketertiban oleh warga aktif', 'bobot_asli' => 6.6, 'urutan' => 3],
-            // Sub-var 6: Warga (5 ind, bobot 20 each)
-            ['kuesioner' => 'F', 'sub_variabel_urutan' => 6, 'kode' => 'W1', 'pernyataan' => 'Warga merasa aman di lingkungannya', 'bobot_asli' => 20, 'urutan' => 1],
-            ['kuesioner' => 'F', 'sub_variabel_urutan' => 6, 'kode' => 'W2', 'pernyataan' => 'Kondisi ketertiban di lingkungan baik', 'bobot_asli' => 20, 'urutan' => 2],
-            ['kuesioner' => 'F', 'sub_variabel_urutan' => 6, 'kode' => 'W3', 'pernyataan' => 'Gangguan ketertiban jarang terjadi', 'bobot_asli' => 20, 'urutan' => 3],
-            ['kuesioner' => 'F', 'sub_variabel_urutan' => 6, 'kode' => 'W4', 'pernyataan' => 'Respons aparat terhadap gangguan cepat', 'bobot_asli' => 20, 'urutan' => 4],
-            ['kuesioner' => 'F', 'sub_variabel_urutan' => 6, 'kode' => 'W5', 'pernyataan' => 'Kepuasan warga terhadap kondisi ketertiban tinggi', 'bobot_asli' => 20, 'urutan' => 5],
+            // ═══ KUESIONER F: Ketertiban Umum (21 indikator: F1 - F21) ═══
+            // Sub-var 1: Kepatuhan Warga (4 ind: F1 - F4)
+            ['kuesioner' => 'F', 'sub_variabel_urutan' => 1, 'kode' => 'F1', 'pernyataan' => 'Kepatuhan warga terhadap perda ketertiban umum', 'bobot_asli' => 5, 'urutan' => 1],
+            ['kuesioner' => 'F', 'sub_variabel_urutan' => 1, 'kode' => 'F2', 'pernyataan' => 'Tingkat pelanggaran ketertiban menurun', 'bobot_asli' => 5, 'urutan' => 2],
+            ['kuesioner' => 'F', 'sub_variabel_urutan' => 1, 'kode' => 'F3', 'pernyataan' => 'Kesadaran warga terhadap aturan tinggi', 'bobot_asli' => 5, 'urutan' => 3],
+            ['kuesioner' => 'F', 'sub_variabel_urutan' => 1, 'kode' => 'F4', 'pernyataan' => 'Sosialisasi peraturan dilaksanakan rutin', 'bobot_asli' => 5, 'urutan' => 4],
+            // Sub-var 2: Operasi Penertiban (4 ind: F5 - F8)
+            ['kuesioner' => 'F', 'sub_variabel_urutan' => 2, 'kode' => 'F5', 'pernyataan' => 'Operasi penertiban dilaksanakan secara berkala', 'bobot_asli' => 5, 'urutan' => 1],
+            ['kuesioner' => 'F', 'sub_variabel_urutan' => 2, 'kode' => 'F6', 'pernyataan' => 'Koordinasi dengan instansi terkait berjalan baik', 'bobot_asli' => 5, 'urutan' => 2],
+            ['kuesioner' => 'F', 'sub_variabel_urutan' => 2, 'kode' => 'F7', 'pernyataan' => 'Tindakan penertiban proporsional dan humanis', 'bobot_asli' => 5, 'urutan' => 3],
+            ['kuesioner' => 'F', 'sub_variabel_urutan' => 2, 'kode' => 'F8', 'pernyataan' => 'Laporan hasil penertiban terdokumentasi', 'bobot_asli' => 5, 'urutan' => 4],
+            // Sub-var 3: Kondisi Ruang Publik (3 ind: F9 - F11)
+            ['kuesioner' => 'F', 'sub_variabel_urutan' => 3, 'kode' => 'F9', 'pernyataan' => 'Kondisi ruang publik bersih dan tertib', 'bobot_asli' => 6.7, 'urutan' => 1],
+            ['kuesioner' => 'F', 'sub_variabel_urutan' => 3, 'kode' => 'F10', 'pernyataan' => 'Tidak ada PKL liar di lokasi terlarang', 'bobot_asli' => 6.7, 'urutan' => 2],
+            ['kuesioner' => 'F', 'sub_variabel_urutan' => 3, 'kode' => 'F11', 'pernyataan' => 'Fasilitas umum terpelihara dan aman', 'bobot_asli' => 6.6, 'urutan' => 3],
+            // Sub-var 4: Tertib Sosial & Usaha (2 ind: F12 - F13)
+            ['kuesioner' => 'F', 'sub_variabel_urutan' => 4, 'kode' => 'F12', 'pernyataan' => 'Perizinan usaha ditegakkan sesuai ketentuan', 'bobot_asli' => 10, 'urutan' => 1],
+            ['kuesioner' => 'F', 'sub_variabel_urutan' => 4, 'kode' => 'F13', 'pernyataan' => 'Ketertiban sosial di lingkungan usaha terjaga', 'bobot_asli' => 10, 'urutan' => 2],
+            // Sub-var 5: Partisipasi Warga (3 ind: F14 - F16)
+            ['kuesioner' => 'F', 'sub_variabel_urutan' => 5, 'kode' => 'F14', 'pernyataan' => 'Partisipasi warga dalam menjaga ketertiban tinggi', 'bobot_asli' => 6.7, 'urutan' => 1],
+            ['kuesioner' => 'F', 'sub_variabel_urutan' => 5, 'kode' => 'F15', 'pernyataan' => 'Sistem siskamling/ronda berjalan aktif', 'bobot_asli' => 6.7, 'urutan' => 2],
+            ['kuesioner' => 'F', 'sub_variabel_urutan' => 5, 'kode' => 'F16', 'pernyataan' => 'Pelaporan gangguan ketertiban oleh warga aktif', 'bobot_asli' => 6.6, 'urutan' => 3],
+            // Sub-var 6: Warga (5 ind: F17 - F21)
+            ['kuesioner' => 'F', 'sub_variabel_urutan' => 6, 'kode' => 'F17', 'pernyataan' => 'Warga merasa aman di lingkungannya', 'bobot_asli' => 20, 'urutan' => 1],
+            ['kuesioner' => 'F', 'sub_variabel_urutan' => 6, 'kode' => 'F18', 'pernyataan' => 'Kondisi ketertiban di lingkungan baik', 'bobot_asli' => 20, 'urutan' => 2],
+            ['kuesioner' => 'F', 'sub_variabel_urutan' => 6, 'kode' => 'F19', 'pernyataan' => 'Gangguan ketertiban jarang terjadi', 'bobot_asli' => 20, 'urutan' => 3],
+            ['kuesioner' => 'F', 'sub_variabel_urutan' => 6, 'kode' => 'F20', 'pernyataan' => 'Respons aparat terhadap gangguan cepat', 'bobot_asli' => 20, 'urutan' => 4],
+            ['kuesioner' => 'F', 'sub_variabel_urutan' => 6, 'kode' => 'F21', 'pernyataan' => 'Kepuasan warga terhadap kondisi ketertiban tinggi', 'bobot_asli' => 20, 'urutan' => 5],
         ];
     }
 }

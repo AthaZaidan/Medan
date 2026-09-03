@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('title', 'Dashboard QPI') — Pemko Medan</title>
+    <title>@yield('title', 'Dashboard QPI') — ICMI Muda</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -19,10 +19,10 @@
 
         {{-- App Header --}}
         <div class="h-14 px-5 border-b border-slate-200 flex items-center gap-3 bg-white">
-            <img src="{{ asset('images/logo-pemko-medan.jpg') }}" alt="Logo Pemko Medan" class="w-8 h-8 object-contain flex-shrink-0">
+            <img src="{{ asset('images/logo-icmi-muda.png') }}" alt="Logo ICMI Muda" class="w-8 h-8 object-contain flex-shrink-0">
             <div class="min-w-0">
-                <div class="font-bold text-slate-900 text-xs tracking-tight truncate">PEMKO MEDAN</div>
-                <div class="text-[11px] text-slate-500 font-medium leading-none">QPI Kewilyahan 2026</div>
+                <div class="font-bold text-blue-900 text-xs tracking-tight truncate">ICMI MUDA</div>
+                <div class="text-[11px] text-slate-500 font-medium leading-none">Survei Kewilayahan</div>
             </div>
         </div>
 
@@ -81,7 +81,7 @@
 
         {{-- Footer --}}
         <div class="p-3.5 border-t border-slate-200 text-center">
-            <span class="text-[10px] text-slate-400 font-medium">Kota Medan © 2026</span>
+            <span class="text-[10px] text-slate-400 font-medium">ICMI Muda © 2026</span>
         </div>
     </aside>
 

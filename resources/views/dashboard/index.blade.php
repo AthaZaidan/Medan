@@ -193,6 +193,52 @@
     </div>
 
     {{-- ============================================================ --}}
+    {{-- Chart Section: Penilaian Per Modul Kuesioner                 --}}
+    {{-- ============================================================ --}}
+    <div class="admin-card overflow-hidden">
+        <div class="admin-card-header flex items-center justify-between">
+            <div>
+                <h2 class="text-xs font-bold text-slate-900 uppercase tracking-wider">Grafik Penilaian Per Modul Kuesioner (Modul A – F)</h2>
+                <p class="text-[11px] text-slate-500 mt-0.5">Rata-rata Skor Kota untuk Setiap Modul Evaluasi</p>
+            </div>
+            <span class="text-xs font-bold px-2.5 py-1 rounded bg-blue-50 text-blue-900 border border-blue-200">
+                6 Modul Evaluasi
+            </span>
+        </div>
+        <div class="p-5 bg-white space-y-4">
+            <div class="relative h-72 w-full">
+                <canvas id="modulChart"></canvas>
+            </div>
+
+            {{-- Rekap Ringkas 6 Modul --}}
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 pt-3 border-t border-slate-100">
+                @foreach($skorModul as $item)
+                    @php
+                        $score = $item['rata_rata_kota'];
+                        $modulNames = [
+                            'A' => 'Kepuasan Masyarakat',
+                            'B' => 'Kinerja Aparatur',
+                            'C' => 'Tata Kelola',
+                            'D' => 'Kematangan Digital',
+                            'E' => 'Tematik PKH',
+                            'F' => 'Ketertiban Umum',
+                        ];
+                    @endphp
+                    <div class="p-2.5 rounded border border-slate-200 bg-slate-50 text-center">
+                        <div class="text-[10px] font-bold text-slate-500 uppercase">Modul {{ $item['kuesioner']->kode }}</div>
+                        <div class="text-base font-extrabold mt-0.5 tabular-nums @if($score !== null) @include('components._score-color-class', ['score' => $score]) @else text-slate-300 @endif">
+                            {{ $score !== null ? number_format($score, 1) : '—' }}
+                        </div>
+                        <div class="text-[10px] text-slate-500 font-medium truncate mt-0.5" title="{{ $item['kuesioner']->nama }}">
+                            {{ $modulNames[$item['kuesioner']->kode] ?? $item['kuesioner']->nama }}
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+
+    {{-- ============================================================ --}}
     {{-- Tabel Periode                                                 --}}
     {{-- ============================================================ --}}
     <div class="admin-card overflow-hidden">
@@ -396,24 +442,54 @@
     // ─── Data dari Laravel ──────────────────────────────────────────
     const barRaw = @json($chartBarData);
     const distribusi = @json($distribusiKategori);
+    const modulRaw = @json($skorModul);
+
+    // ─── Custom Value Label Plugin ─────────────────────────────────
+    const valueLabelPlugin = {
+        id: 'valueLabelPlugin',
+        afterDatasetDraw(chart) {
+            const { ctx } = chart;
+            chart.data.datasets.forEach((dataset, i) => {
+                const meta = chart.getDatasetMeta(i);
+                meta.data.forEach((bar, index) => {
+                    const value = dataset.data[index];
+                    if (value !== null && value !== undefined && value > 0) {
+                        ctx.save();
+                        ctx.font = 'bold 10px "Plus Jakarta Sans", sans-serif';
+                        ctx.fillStyle = '#334155';
+                        if (chart.options.indexAxis === 'y') {
+                            ctx.textAlign = 'left';
+                            ctx.textBaseline = 'middle';
+                            ctx.fillText(Number(value).toFixed(1), bar.x + 6, bar.y);
+                        } else {
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'bottom';
+                            ctx.fillText(Number(value).toFixed(1), bar.x, bar.y - 3);
+                        }
+                        ctx.restore();
+                    }
+                });
+            });
+        }
+    };
 
     // ─── Warna berdasarkan kategori ─────────────────────────────────
     const KATEGORI_COLOR = {
-        'Sangat Baik':        { bg: 'rgba(5, 150, 105, 0.85)',   border: '#059669' },
-        'Baik':               { bg: 'rgba(37, 99, 235, 0.85)',   border: '#2563eb' },
-        'Cukup':              { bg: 'rgba(217, 119, 6, 0.85)',   border: '#d97706' },
-        'Perlu Perbaikan':    { bg: 'rgba(234, 88, 12, 0.85)',   border: '#ea580c' },
+        'Sangat Baik':             { bg: 'rgba(5, 150, 105, 0.85)',   border: '#059669' },
+        'Baik':                    { bg: 'rgba(37, 99, 235, 0.85)',   border: '#2563eb' },
+        'Cukup':                   { bg: 'rgba(217, 119, 6, 0.85)',   border: '#d97706' },
+        'Perlu Perbaikan':         { bg: 'rgba(234, 88, 12, 0.85)',   border: '#ea580c' },
         'Perlu Perbaikan (Floor)': { bg: 'rgba(234, 88, 12, 0.75)', border: '#ea580c' },
-        'Kritis':             { bg: 'rgba(220, 38, 38, 0.85)',   border: '#dc2626' },
-        'Kritis (Floor)':     { bg: 'rgba(220, 38, 38, 0.75)',   border: '#dc2626' },
-        'default':            { bg: 'rgba(148, 163, 184, 0.6)', border: '#94a3b8' },
+        'Kritis':                  { bg: 'rgba(220, 38, 38, 0.85)',   border: '#dc2626' },
+        'Kritis (Floor)':          { bg: 'rgba(220, 38, 38, 0.75)',   border: '#dc2626' },
+        'default':                 { bg: 'rgba(148, 163, 184, 0.6)',  border: '#94a3b8' },
     };
 
     function getKategoriColor(kat) {
         return KATEGORI_COLOR[kat] || KATEGORI_COLOR['default'];
     }
 
-    // ─── Bar Chart ──────────────────────────────────────────────────
+    // ─── Bar Chart: QPI Per Kecamatan ───────────────────────────────
     const barCanvas = document.getElementById('barChart');
     if (barCanvas && barRaw.length > 0) {
         const hasData = barRaw.some(d => d.qpi !== null);
@@ -425,6 +501,7 @@
 
             new Chart(barCanvas, {
                 type: 'bar',
+                plugins: [valueLabelPlugin],
                 data: {
                     labels,
                     datasets: [{
@@ -432,21 +509,26 @@
                         data: values,
                         backgroundColor: bgColors,
                         borderColor: bdColors,
-                        borderWidth: 1.5,
-                        borderRadius: 4,
+                        borderWidth: 1,
+                        borderRadius: { topLeft: 4, topRight: 4 },
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    layout: { padding: { top: 18 } },
                     plugins: {
                         legend: { display: false },
                         tooltip: {
+                            backgroundColor: '#0f172a',
+                            padding: 10,
+                            titleFont: { size: 12, weight: 'bold' },
+                            bodyFont: { size: 11 },
                             callbacks: {
                                 label: ctx => {
                                     const kat = barRaw[ctx.dataIndex].kategori ?? 'Belum Ada Data';
                                     const val = ctx.raw !== null ? ctx.raw.toFixed(1) : '—';
-                                    return [`QPI: ${val}`, `Kategori: ${kat}`];
+                                    return [`Skor QPI: ${val}`, `Kategori: ${kat}`];
                                 }
                             }
                         }
@@ -454,20 +536,22 @@
                     scales: {
                         x: {
                             ticks: {
-                                font: { size: 9 },
+                                font: { size: 9, weight: '600' },
                                 maxRotation: 45,
                                 minRotation: 30,
+                                color: '#475569'
                             },
                             grid: { display: false },
                         },
                         y: {
                             min: 0,
-                            max: 100,
+                            max: 105,
                             ticks: {
                                 font: { size: 10 },
-                                callback: v => v,
+                                stepSize: 20,
+                                callback: v => v > 100 ? '' : v,
                             },
-                            grid: { color: 'rgba(148,163,184,0.15)' },
+                            grid: { color: 'rgba(226, 232, 240, 0.7)' },
                         }
                     }
                 }
@@ -475,7 +559,7 @@
         }
     }
 
-    // ─── Pie Chart ──────────────────────────────────────────────────
+    // ─── Doughnut Chart: Distribusi Kategori ────────────────────────
     const pieCanvas = document.getElementById('pieChart');
     if (pieCanvas) {
         const pieLabels = Object.keys(distribusi).filter(k => distribusi[k] > 0);
@@ -492,21 +576,23 @@
                         data: pieValues,
                         backgroundColor: pieBg,
                         borderColor: pieBd,
-                        borderWidth: 1.5,
+                        borderWidth: 2,
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    cutout: '60%',
+                    cutout: '68%',
                     plugins: {
                         legend: { display: false },
                         tooltip: {
+                            backgroundColor: '#0f172a',
+                            padding: 10,
                             callbacks: {
                                 label: ctx => {
                                     const total = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
                                     const pct = ((ctx.raw / total) * 100).toFixed(1);
-                                    return ` ${ctx.label}: ${ctx.raw} kecamatan (${pct}%)`;
+                                    return ` ${ctx.label}: ${ctx.raw} wilayah (${pct}%)`;
                                 }
                             }
                         }
@@ -514,6 +600,78 @@
                 }
             });
         }
+    }
+
+    // ─── Modul Chart: Penilaian Per Modul (Side-by-side vertical columns) ──
+    const modulCanvas = document.getElementById('modulChart');
+    if (modulCanvas && modulRaw.length > 0) {
+        const modulLabels = modulRaw.map(m => `Modul ${m.kuesioner.kode}`);
+        const modulValues = modulRaw.map(m => m.rata_rata_kota !== null ? Number(m.rata_rata_kota.toFixed(1)) : 0);
+
+        new Chart(modulCanvas, {
+            type: 'bar',
+            plugins: [valueLabelPlugin],
+            data: {
+                labels: modulLabels,
+                datasets: [{
+                    label: 'Rata-rata Skor Modul',
+                    data: modulValues,
+                    backgroundColor: [
+                        'rgba(30, 64, 175, 0.85)',
+                        'rgba(2, 132, 199, 0.85)',
+                        'rgba(5, 150, 105, 0.85)',
+                        'rgba(217, 119, 6, 0.85)',
+                        'rgba(124, 58, 237, 0.85)',
+                        'rgba(225, 29, 72, 0.85)'
+                    ],
+                    borderColor: [
+                        '#1e40af', '#0284c7', '#059669', '#d97706', '#7c3aed', '#e11d48'
+                    ],
+                    borderWidth: 1.5,
+                    borderRadius: { topLeft: 6, topRight: 6 },
+                    barPercentage: 0.55,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'x',
+                layout: { padding: { top: 22 } },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: '#0f172a',
+                        padding: 10,
+                        callbacks: {
+                            title: ctx => {
+                                const m = modulRaw[ctx[0].dataIndex];
+                                return `Modul ${m.kuesioner.kode} — ${m.kuesioner.nama}`;
+                            },
+                            label: ctx => ` Skor Rata-rata Kota: ${ctx.raw} / 100`
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            font: { size: 11, weight: 'bold' },
+                            color: '#1e293b'
+                        },
+                        grid: { display: false }
+                    },
+                    y: {
+                        min: 0,
+                        max: 105,
+                        ticks: {
+                            font: { size: 10 },
+                            stepSize: 20,
+                            callback: v => v > 100 ? '' : v
+                        },
+                        grid: { color: 'rgba(226, 232, 240, 0.7)' }
+                    }
+                }
+            }
+        });
     }
 })();
 </script>
